@@ -52,6 +52,8 @@
 
 int16_t x,y,z;
 uint32_t count = 0;
+#define AVG_NUM 10
+int16_t x_sum, y_sum, z_sum;
 
 int main(void)
 {
@@ -66,12 +68,27 @@ int main(void)
     {
         // Read the sensor
         NRF_LOG_INFO("Counter %lu.", count++);
-        tmag5170_read_xyz(&x, &y, &z);
-        NRF_LOG_INFO("X: %4d, Y: %4d, Z: %4d", x, y, z);
 
         NRF_LOG_FLUSH();
 
         bsp_board_led_invert(BSP_BOARD_LED_0);
-        nrf_delay_ms(200);
+
+        x_sum = 0; y_sum = 0; z_sum = 0;
+
+        for (int i = 0; i < AVG_NUM; i++)
+        {
+            tmag5170_read_xyz(&x, &y, &z);
+            x_sum += x; y_sum += y; z_sum += z;
+            nrf_delay_ms(10);
+        }
+        x_sum += AVG_NUM / 2;
+        y_sum += AVG_NUM / 2;
+        z_sum += AVG_NUM / 2;
+        x = x_sum / AVG_NUM;
+        y = y_sum / AVG_NUM;
+        z = z_sum / AVG_NUM;
+
+        NRF_LOG_INFO("X: %4d, Y: %4d, Z: %4d", x, y, z);
+        
     }
 }

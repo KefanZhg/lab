@@ -16,7 +16,7 @@ void spi_event_handler(nrf_drv_spi_evt_t const * p_event,
                        void *                    p_context)
 {
     spi_xfer_done = true;
-    NRF_LOG_INFO("Transfer completed.");
+    // NRF_LOG_INFO("Transfer completed.");
     if (m_rx_buf[0] != 0)
     {
         NRF_LOG_INFO(" Received:");
@@ -70,20 +70,20 @@ void tmag5170_init(void)
     TMAG5170startup();
 
     // Start sampling
-    setSampleRate(0x03);
+    setSampleRate(0x02);
     enableMagChannels(MAG_CH_EN_BITS_XYZ);
-    alertTriggersConversion();
-
+    setSLEEPTIME(0x00);
+    enterWakeUpAndSleepMode();
 }
 
 void tmag5170_read_xyz(int16_t *x, int16_t *y, int16_t *z)
 {
     // Trigger a conversion
-    setALERT(0);
-    delay_us(30);
-    setALERT(1);
+    // setALERT(0);
+    // delay_us(30);
+    // setALERT(1);
     // Read the sensor
-    if(x!=NULL) *x = (int16_t)getXresult();
-    if(y!=NULL) *y = (int16_t)getYresult();
-    if(z!=NULL) *z = (int16_t)getZresult();
+    if(x!=NULL) *x = ((int16_t)getXresult())>>4;
+    if(y!=NULL) *y = ((int16_t)getYresult())>>4;
+    if(z!=NULL) *z = ((int16_t)getZresult())>>4;
 }
