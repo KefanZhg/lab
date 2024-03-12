@@ -41,7 +41,7 @@
 #include "app_util_platform.h"
 #include "nrf_gpio.h"
 #include "nrf_delay.h"
-#include "boards.h"
+// #include "boards.h"
 #include "app_error.h"
 #include <string.h>
 #include "nrf_log.h"
@@ -52,12 +52,13 @@
 
 int16_t x,y,z;
 uint32_t count = 0;
-#define AVG_NUM 10
-int16_t x_sum, y_sum, z_sum;
+#define AVG_NUM 256
+int32_t x_sum, y_sum, z_sum;
 
 int main(void)
 {
-    bsp_board_init(BSP_INIT_LEDS);
+    // bsp_board_init(BSP_INIT_LEDS);
+    nrf_gpio_cfg_output(LED_PIN);
 
     APP_ERROR_CHECK(NRF_LOG_INIT(NULL));
     NRF_LOG_DEFAULT_BACKENDS_INIT();
@@ -71,7 +72,7 @@ int main(void)
 
         NRF_LOG_FLUSH();
 
-        bsp_board_led_invert(BSP_BOARD_LED_0);
+        nrf_gpio_pin_toggle(LED_PIN);
 
         x_sum = 0; y_sum = 0; z_sum = 0;
 
@@ -79,14 +80,14 @@ int main(void)
         {
             tmag5170_read_xyz(&x, &y, &z);
             x_sum += x; y_sum += y; z_sum += z;
-            nrf_delay_ms(10);
+            nrf_delay_ms(2);
         }
         x_sum += AVG_NUM / 2;
         y_sum += AVG_NUM / 2;
         z_sum += AVG_NUM / 2;
-        x = x_sum / AVG_NUM;
-        y = y_sum / AVG_NUM;
-        z = z_sum / AVG_NUM;
+        x = (int16_t)(x_sum / AVG_NUM);
+        y = (int16_t)(y_sum / AVG_NUM);
+        z = (int16_t)(z_sum / AVG_NUM);
 
         NRF_LOG_INFO("X: %4d, Y: %4d, Z: %4d", x, y, z);
         

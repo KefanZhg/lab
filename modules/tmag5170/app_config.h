@@ -1,14 +1,19 @@
 #ifndef APP_CONFIG_H
 #define APP_CONFIG_H
 
+#define NRF_LOG_BACKEND_UART_TX_PIN 26
+#define NRF_LOG_BACKEND_UART_RX_PIN 6
 
-#define SPI_MISO_PIN 40
-#define SPI_MOSI_PIN 39
+#define LED_PIN 46
+#define BTN_PIN 8
+
 #define SPI_SCK_PIN  38
-#define SPI_SS_PIN   37
+#define SPI_MOSI_PIN 36
+#define SPI_MISO_PIN 34
+#define SPI_SS_PIN   32
 
-#define TMAG5170_ALT_PIN 42
-#define TMAG5170_CS_PIN  43
+#define TMAG5170_ALT_PIN 21
+#define TMAG5170_CS_PIN  SPI_SS_PIN
 
 #define HIGH 1
 #define LOW  0

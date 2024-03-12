@@ -83,7 +83,7 @@ void tmag5170_read_xyz(int16_t *x, int16_t *y, int16_t *z)
     // delay_us(30);
     // setALERT(1);
     // Read the sensor
-    if(x!=NULL) *x = ((int16_t)getXresult())>>4;
-    if(y!=NULL) *y = ((int16_t)getYresult())>>4;
-    if(z!=NULL) *z = ((int16_t)getZresult())>>4;
+    if(x!=NULL) *x = ((int16_t)getXresult());
+    if(y!=NULL) *y = ((int16_t)getYresult());
+    if(z!=NULL) *z = ((int16_t)getZresult());
 }

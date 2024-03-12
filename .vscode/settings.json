@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "nrf_log_ctrl.h": "c",
+        "nrf_log_default_backends.h": "c",
+        "boards.h": "c",
+        "arduino_primo.h": "c",
+        "pca10056.h": "c",
+        "n5_starterkit.h": "c",
+        "pca10028.h": "c",
+        "nrf52840_kernel_1.h": "c"
+    }
+}
