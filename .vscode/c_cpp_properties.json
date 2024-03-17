@@ -8,7 +8,7 @@
             "defines": [
                 "APP_TIMER_V2",
                 "APP_TIMER_V2_RTC1_ENABLED",
-                "BOARD_NRF52840_KERNEL_1",
+                "BOARD_KIDEAS0001",
                 "CONFIG_GPIO_AS_PINRESET",
                 "FLOAT_ABI_HARD",
                 "NRF52840_XXAA",
