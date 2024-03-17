@@ -1,0 +1,10 @@
+#ifndef APP_CONFIG_H
+#define APP_CONFIG_H
+
+#define NRF_LOG_BACKEND_UART_TX_PIN 26
+#define NRF_LOG_BACKEND_UART_RX_PIN 6
+
+#define LED_PIN 46
+#define BTN_PIN 8
+
+#endif // APP_CONFIG_H
