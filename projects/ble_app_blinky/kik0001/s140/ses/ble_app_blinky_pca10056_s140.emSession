@@ -56,7 +56,8 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="565" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="57" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="565" useTextEdit="1" path="../../../main.c" left="0" top="535" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="90" useTextEdit="1" path="../../../../../lib/nrf5-sdk/components/boards/boards.h" left="0" selected="1" top="75" codecName="Default"/>
  </Files>
- <EMStudioWindow activeProject="ble_app_blinky_pca10056_s140" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3711"/>
+ <EMStudioWindow activeProject="ble_app_blinky_pca10056_s140" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>
