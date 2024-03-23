@@ -56,3 +56,4 @@ dkms.conf
 
 # SES Output files
 **/Output/
+test/
