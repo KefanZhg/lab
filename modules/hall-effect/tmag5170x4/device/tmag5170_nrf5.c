@@ -21,11 +21,20 @@ void tmag5170_init(tmag5170_t * p_tmag5170)
         nrf_gpio_cfg_output(p_tmag5170->cs_pin);
         nrf_gpio_pin_write(p_tmag5170->cs_pin, HIGH);
     }
+    NRF_LOG_INFO("CS pin: %d", p_tmag5170->cs_pin);
+    NRF_LOG_INFO("Alert pin: %d", p_tmag5170->alert_pin);
+    NRF_LOG_FLUSH();
+
     if(p_tmag5170->alert_pin != NRF_DRV_SPI_PIN_NOT_USED)
     {
         nrf_gpio_cfg_input(p_tmag5170->alert_pin, NRF_GPIO_PIN_PULLUP);
         // nrf_gpio_pin_write(p_tmag5170->alert_pin, HIGH);
+        // Read pin
+        input = nrf_gpio_pin_read(p_tmag5170->alert_pin);
+        NRF_LOG_INFO("Alert level: %d", input);
     }
+    NRF_LOG_FLUSH();
+    
 
     /* Init SPI */
     ret_code_t err_code;
@@ -57,10 +66,13 @@ void tmag5170_init(tmag5170_t * p_tmag5170)
     TMAG5170startup();
 
     // Start sampling
-    setSampleRate(0x02);
+    setSampleRate(0x05);
     enableMagChannels(MAG_CH_EN_BITS_XYZ);
 
-    setSLEEPTIME(0x00);
+    // Set range
+    setRanges(0x01, 0x01, 0x01);
+
+    setSLEEPTIME(0x04);
     enterWakeUpAndSleepMode();
 
     // Deactivate CS

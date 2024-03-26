@@ -142,6 +142,12 @@ int main(void)
         tmag5170_init(&tmag5170[i]);
     }
 
+    // Read alert pin level and print
+    for (int i = 0; i < 4; i++)
+    {
+        NRF_LOG_INFO("Alert pin %d level: %d", i, nrf_gpio_pin_read(tmag5170[i].alert_pin));
+    }
+
     continous_mode();
     // alert_mode();
 
@@ -149,7 +155,8 @@ int main(void)
 
 void continous_mode(void)
 {
-        while (1)
+    bool alt_input;
+    while (1)
     {
         // Read the sensor
         NRF_LOG_INFO("Counter %lu.", count++);
@@ -191,11 +198,15 @@ void continous_mode(void)
             data_avg[i].z = data_sum[i].z / AVG_NUM;
         }
         /* Print results to a table */
-        NRF_LOG_INFO("Sensor  | X       | Y       | Z       |");
-        NRF_LOG_INFO("--------|---------|---------|---------|");
+        NRF_LOG_INFO("Sensor  | X       | Y       | Z       | Alert   |");
+        NRF_LOG_INFO("--------|---------|---------|---------|---------|");
         for (int i = 0; i < 4; i++)
         {
-            NRF_LOG_INFO("Sensor %d|%8d |%8d |%8d |", i, data_avg[i].x, data_avg[i].y, data_avg[i].z);
+            // Read alert pin
+            alt_input = nrf_gpio_pin_read(tmag5170[i].alert_pin) != 0 ? 0 : 1;
+            // Print the data
+            NRF_LOG_INFO("Sensor %d|%8d |%8d |%8d | %s", i, data_avg[i].x, data_avg[i].y, data_avg[i].z,
+                         alt_input ? "High" : "Low");
         }
         NRF_LOG_FLUSH();
 
@@ -205,52 +216,164 @@ void continous_mode(void)
 void alert_mode(void)
 {
     uint16_t input;
+    UNUSED_PARAMETER(input);
     uint16_t thresh = TMAG5170_HI_THRESH | TMAG5170_LO_THRESH;
     NRF_LOG_INFO("Alert number 0x%04X", thresh);
     NRF_LOG_FLUSH();
     // Enable alert mode
-    for (int i = 0; i < 4; i++)
-    {    
-        p_tmag5170_current = &tmag5170[i];
-        // SET ALERT_MODE (address: 0x03C) to Interrupt & Trigger Mode (0h)
-        input = normalReadRegister(ALERT_CONFIG_ADDRESS);
-        input |= (ALERT_CONFIG_ALERT_MODE_MASK);
-        input |= ALERT_CONFIG_X_THRX_ALRT_MASK;
-        // input |= ALERT_CONFIG_Y_THRX_ALRT_MASK;
-        // input |= ALERT_CONFIG_Z_THRX_ALRT_MASK;
-        writeToRegister( ALERT_CONFIG_ADDRESS, input );
-        NRF_LOG_INFO("Alert Input 0x%04X", input);
-        writeToRegister(X_THRX_CONFIG_ADDRESS, thresh);
-        // writeToRegister(Y_THRX_CONFIG_ADDRESS, thresh);
-        // writeToRegister(Z_THRX_CONFIG_ADDRESS, thresh);
-
-
-
-    }
+    // for (int i = 0; i < 4; i++)
+    // {    
+    //     p_tmag5170_current = &tmag5170[i];
+    //     // SET ALERT_MODE (address: 0x03C) to Interrupt & Trigger Mode (0h)
+    //     input = normalReadRegister(ALERT_CONFIG_ADDRESS);
+    //     input |= (ALERT_CONFIG_ALERT_MODE_MASK);
+    //     input |= ALERT_CONFIG_X_THRX_ALRT_MASK;
+    //     input |= ALERT_CONFIG_Y_THRX_ALRT_MASK;
+    //     input |= ALERT_CONFIG_Z_THRX_ALRT_MASK;
+    //     // input &= ~ALERT_CONFIG_Y_THRX_ALRT_MASK;
+    //     // input &= ~ALERT_CONFIG_Z_THRX_ALRT_MASK;
+    //     writeToRegister( ALERT_CONFIG_ADDRESS, input );
+    //     NRF_LOG_INFO("Alert Input 0x%04X", input);
+    //     NRF_LOG_INFO("Threshold 0x%04X", thresh);
+    //     writeToRegister(X_THRX_CONFIG_ADDRESS, thresh);
+    //     writeToRegister(Y_THRX_CONFIG_ADDRESS, thresh);
+    //     writeToRegister(Z_THRX_CONFIG_ADDRESS, thresh);
+    // }
 
     NRF_LOG_INFO("Alert mode enabled.");
 
-    while(1)
+    uint16_t reg[4][0x14];
+
+    // Read all registers at TMAG5170
+    for (uint8_t addr=0; addr<0x14;addr++)
     {
-        count++;
-        // Wait for alert
+        for (uint8_t dev=0; dev<4; dev++)
+        {
+            reg[dev][addr] = normalReadRegister(addr);
+        }
+    }
+
+    // Print table
+    NRF_LOG_INFO("Register | Sensor 0 | Sensor 1 | Sensor 2 | Sensor 3 |");
+    NRF_LOG_INFO("---------|----------|----------|----------|----------|");
+    for (uint8_t addr=0; addr<0x14;addr++)
+    {
+        NRF_LOG_INFO("0x%02X     | 0x%04X   | 0x%04X   | 0x%04X   | 0x%04X   |", addr, reg[0][addr], reg[1][addr], reg[2][addr], reg[3][addr]);
+    }
+    NRF_LOG_FLUSH();
+
+    // while(1)
+    // nrf_delay_ms(1000);
+
+    
+    bool alt_input;
+    while (1)
+    {
+        // Read the sensor
+        NRF_LOG_INFO("Counter %lu.", count++);
+
+
+        NRF_LOG_FLUSH();
+
+        nrf_gpio_pin_toggle(LED_PIN);
+
+        /* Clean sum */
         for (int i = 0; i < 4; i++)
         {
-            if (nrf_gpio_pin_read(tmag5170[i].alert_pin) == 0)
-            {
-                tmag5170_read_xyz(&tmag5170[i]);
-                NRF_LOG_INFO("Sensor %d | X: %d, Y: %d, Z: %d", i, tmag5170[i].data.x, tmag5170[i].data.y, tmag5170[i].data.z);
-                NRF_LOG_FLUSH();
-            }
-            else if(count % 100 == 0)
-            {
-                NRF_LOG_INFO("Sensor %d | No alert.", i);
-                tmag5170_read_xyz(&tmag5170[i]);
-                NRF_LOG_INFO("Sensor %d | X: %d, Y: %d, Z: %d", i, tmag5170[i].data.x, tmag5170[i].data.y, tmag5170[i].data.z);
-                NRF_LOG_FLUSH();
-            }
+            data_sum[i].x = 0;
+            data_sum[i].y = 0;
+            data_sum[i].z = 0;
+        }
+        /* Read the sensor */
+        // for (int j = 0; j < AVG_NUM; j++)
+        //     for (int i = 0; i < 4; i++)
+        //     {
+        //         // Wait alert
+        //         // while(nrf_gpio_pin_read(tmag5170[i].alert_pin) == 1)
+        //         // {
+        //         //     nrf_delay_us(10);
+        //         // }
+        //         // if (nrf_gpio_pin_read(tmag5170[i].alert_pin) == 0)
+        //         {
+        //             tmag5170_read_xyz(&tmag5170[i]);
+        //             data_sum[i].x += tmag5170[i].data.x;
+        //             data_sum[i].y += tmag5170[i].data.y;
+        //             data_sum[i].z += tmag5170[i].data.z;
+        //         }
+        //     }
+        /* Average the data */
+        for (int i = 0; i < 4; i++)
+        {
+            data_avg[i].x = data_sum[i].x / AVG_NUM;
+            data_avg[i].y = data_sum[i].y / AVG_NUM;
+            data_avg[i].z = data_sum[i].z / AVG_NUM;
+        }
+        /* Print results to a table */
+        NRF_LOG_INFO("Sensor  | X       | Y       | Z       | Alert   |");
+        NRF_LOG_INFO("--------|---------|---------|---------|---------|");
+        for (int i = 0; i < 4; i++)
+        {
+            // Read alert pin
+            alt_input = nrf_gpio_pin_read(tmag5170[i].alert_pin);
+            // Print the data
+            NRF_LOG_INFO("Sensor %d|%8d |%8d |%8d | %s", i, data_avg[i].x, data_avg[i].y, data_avg[i].z,
+                         alt_input ? "High" : "Low");
         }
         NRF_LOG_FLUSH();
-        nrf_delay_ms(10);
+        nrf_delay_ms(100);
+
     }
 }
+
+// void alert_mode(void)
+// {
+//     uint16_t input;
+//     uint16_t thresh = TMAG5170_HI_THRESH | TMAG5170_LO_THRESH;
+//     NRF_LOG_INFO("Alert number 0x%04X", thresh);
+//     NRF_LOG_FLUSH();
+//     // Enable alert mode
+//     for (int i = 0; i < 4; i++)
+//     {    
+//         p_tmag5170_current = &tmag5170[i];
+//         // SET ALERT_MODE (address: 0x03C) to Interrupt & Trigger Mode (0h)
+//         input = normalReadRegister(ALERT_CONFIG_ADDRESS);
+//         input |= (ALERT_CONFIG_ALERT_MODE_MASK);
+//         input |= ALERT_CONFIG_X_THRX_ALRT_MASK;
+//         // input |= ALERT_CONFIG_Y_THRX_ALRT_MASK;
+//         // input |= ALERT_CONFIG_Z_THRX_ALRT_MASK;
+//         writeToRegister( ALERT_CONFIG_ADDRESS, input );
+//         NRF_LOG_INFO("Alert Input 0x%04X", input);
+//         writeToRegister(X_THRX_CONFIG_ADDRESS, thresh);
+//         // writeToRegister(Y_THRX_CONFIG_ADDRESS, thresh);
+//         // writeToRegister(Z_THRX_CONFIG_ADDRESS, thresh);
+
+
+
+//     }
+
+//     NRF_LOG_INFO("Alert mode enabled.");
+
+//     while(1)
+//     {
+//         count++;
+//         // Wait for alert
+//         for (int i = 0; i < 4; i++)
+//         {
+//             if (nrf_gpio_pin_read(tmag5170[i].alert_pin) == 0)
+//             {
+//                 tmag5170_read_xyz(&tmag5170[i]);
+//                 NRF_LOG_INFO("Sensor %d | X: %d, Y: %d, Z: %d", i, tmag5170[i].data.x, tmag5170[i].data.y, tmag5170[i].data.z);
+//                 NRF_LOG_FLUSH();
+//             }
+//             else if(count % 100 == 0)
+//             {
+//                 NRF_LOG_INFO("Sensor %d | No alert.", i);
+//                 tmag5170_read_xyz(&tmag5170[i]);
+//                 NRF_LOG_INFO("Sensor %d | X: %d, Y: %d, Z: %d", i, tmag5170[i].data.x, tmag5170[i].data.y, tmag5170[i].data.z);
+//                 NRF_LOG_FLUSH();
+//             }
+//         }
+//         NRF_LOG_FLUSH();
+//         nrf_delay_ms(10);
+//     }
+// }
