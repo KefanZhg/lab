@@ -12,6 +12,8 @@
         "app_util_platform.h": "c",
         "nrf_drv_spi.h": "c",
         "tmag5170.h": "c",
-        "random": "cpp"
+        "random": "cpp",
+        "eeprom.h": "c",
+        "nrf_log.h": "c"
     }
 }
