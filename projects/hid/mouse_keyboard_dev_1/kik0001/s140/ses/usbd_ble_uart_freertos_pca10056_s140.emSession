@@ -22,6 +22,8 @@
   <ProjectSessionItem path="usbd_ble_uart_freertos_pca10056_s140"/>
   <ProjectSessionItem path="usbd_ble_uart_freertos_pca10056_s140;usbd_ble_uart_freertos_pca10056_s140"/>
   <ProjectSessionItem path="usbd_ble_uart_freertos_pca10056_s140;usbd_ble_uart_freertos_pca10056_s140;Application"/>
+  <ProjectSessionItem path="usbd_ble_uart_freertos_pca10056_s140;usbd_ble_uart_freertos_pca10056_s140;Board Definition"/>
+  <ProjectSessionItem path="usbd_ble_uart_freertos_pca10056_s140;usbd_ble_uart_freertos_pca10056_s140;nRF_SoftDevice"/>
  </Project>
  <Register1>
   <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="usbd_ble_uart_freertos_pca10056_s140_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
@@ -54,10 +56,15 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="37" y="156" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="141" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="537" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="515" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="9" y="46" useTextEdit="1" path="../config/sdk_config.h" left="0" top="31" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="38" y="100" useTextEdit="1" path="../../../../../../lib/nrf5-sdk/components/libraries/uart/retarget.c" left="0" top="85" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="29" y="77" useTextEdit="1" path="../../../app_config.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="52" useTextEdit="1" path="../../../app_config.h" left="0" top="41" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="15" y="217" useTextEdit="1" path="../../../../../../lib/nrf5-sdk/components/boards/boards.c" left="0" top="203" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="78" y="33" useTextEdit="1" openedFrom="S:/GitHub/nrf52-trails/lib/nrf5-sdk/components/boards/boards.c" path="../../../../../../lib/nrf5-sdk/components/boards/kik0001.h" left="0" top="24" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="49" y="77" useTextEdit="1" openedFrom="S:/GitHub/nrf52-trails/lib/nrf5-sdk/components/boards/boards.c" path="../../../../../../lib/nrf5-sdk/components/libraries/util/nrf_assert.h" left="0" top="57" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="671" useTextEdit="1" path="../../../../../../lib/nrf5-sdk/modules/nrfx/hal/nrf_gpio.h" left="0" top="643" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="22" y="210" useTextEdit="1" openedFrom="S:/GitHub/nrf52-trails/projects/hid/mouse_keyboard_dev_1/main.c" path="../../../../../../lib/nrf5-sdk/components/softdevice/common/nrf_sdh.c" left="0" top="181" codecName="Default"/>
  </Files>
  <EMStudioWindow activeProject="usbd_ble_uart_freertos_pca10056_s140" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>
