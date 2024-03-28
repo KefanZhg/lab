@@ -14,6 +14,8 @@
         "tmag5170.h": "c",
         "random": "cpp",
         "eeprom.h": "c",
-        "nrf_log.h": "c"
+        "nrf_log.h": "c",
+        "freertos.h": "c",
+        "task.h": "c"
     }
 }
