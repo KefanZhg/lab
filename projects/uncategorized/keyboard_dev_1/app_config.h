@@ -74,5 +74,9 @@
 // <4=> Debug 
 #define NRF_LOG_DEFAULT_LEVEL 4
 
+#ifndef __printf_tag_ptr
+#define __printf_tag_ptr FILE*
+#endif
+
 
 #endif // APP_CONFIG_H
