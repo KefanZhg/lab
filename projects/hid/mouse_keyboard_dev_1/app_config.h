@@ -17,24 +17,6 @@
 #define HCI_UART_RX_PIN APP_CONFIG_RX_PIN_NUMBER
 #define HCI_UART_TX_PIN APP_CONFIG_TX_PIN_NUMBER
 
-#define LED_PIN 46
-#define BTN_PIN 8
-
-#define SPI_SCK_PIN  38
-#define SPI_MOSI_PIN 36
-#define SPI_MISO_PIN 34
-
-#define TMAG5170_NUM_SENSORS 4
-
-// #define TMAG5170_CS_PIN_0 32
-// #define TMAG5170_CS_PIN_1 24
-// #define TMAG5170_CS_PIN_2 10
-// #define TMAG5170_CS_PIN_3 29
-
-// #define TMAG5170_ALERT_PIN_0 22
-// #define TMAG5170_ALERT_PIN_1 9
-// #define TMAG5170_ALERT_PIN_2 45
-// #define TMAG5170_ALERT_PIN_3 21
 
 #define TMAG5170_HI_THRESH X_THRX_CONFIG_X_HI_THRESHOLD_5FS
 #define TMAG5170_LO_THRESH X_THRX_CONFIG_X_LO_THRESHOLD_5FS
@@ -82,6 +64,8 @@
 #ifndef __printf_tag_ptr
 #define __printf_tag_ptr FILE*
 #endif
+
+
 
 
 #endif // APP_CONFIG_H
