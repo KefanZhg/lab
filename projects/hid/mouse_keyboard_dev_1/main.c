@@ -48,7 +48,6 @@
  * This application uses the @ref srvlib_conn_params module.
  */
 
-#include "config.h"
 #include "app.h"
 
 /**

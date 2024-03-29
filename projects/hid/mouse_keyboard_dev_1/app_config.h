@@ -65,7 +65,20 @@
 #define __printf_tag_ptr FILE*
 #endif
 
+// Make sure peripheral is enabled
 
+// TWI
+#define TWI_ENABLED 1
+#define TWI0_ENABLED 1
+#define TWI0_USE_EASY_DMA 1
+#define NRFX_TWI_ENABLED 1
+#define NRFX_TWIM_ENABLED 1
+#define NRFX_TWI0_ENABLED 1
+#define NRFX_TWIM0_ENABLED 1
+#define NRFX_TWIM_CONFIG_LOG_ENABLED 1
+#define NRFX_TWIM_CONFIG_LOG_LEVEL 4
+#define NRFX_TWIM_CONFIG_INFO_COLOR 3
+#define NRFX_TWIM_CONFIG_DEBUG_COLOR 7
 
 
 #endif // APP_CONFIG_H

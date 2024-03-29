@@ -35,8 +35,9 @@
 #include "nrf_gpio.h"
 #include "nrf_delay.h"
 #include "nrf_drv_power.h"
-#include "nrf_drv_twi.h"
 #include "nrf_drv_spi.h"
+
+#include "nrfx_twi.h"
 
 #include "boards.h"
 
@@ -56,12 +57,15 @@
 #include "task.h"
 #include "semphr.h"
 
+// Include drivers
+#include "i2c.h"
+
 // Pin definitions
 #define LED_PIN 46
 #define BTN_PIN 8
 
-#define I2C_SDA_PIN  17
-#define I2C_SCL_PIN  13
+#define TWI_SDA_PIN  17
+#define TWI_SCL_PIN  13
 
 #define SPI_SCK_PIN  38
 #define SPI_MOSI_PIN 36
@@ -73,5 +77,11 @@
 #define JOYSTICK_SW_PIN 16
 #define JOYSTICK_X_AIN   6
 #define JOYSTICK_Y_AIN   4
+
+#define APP_TWI_INSTANCE_ID 0
+
+// External variables
+extern i2c_t app_i2c;
+extern const nrf_drv_twi_t app_twi;
 
 #endif // CONFIG_H

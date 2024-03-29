@@ -16,6 +16,12 @@
         "eeprom.h": "c",
         "nrf_log.h": "c",
         "freertos.h": "c",
-        "task.h": "c"
+        "task.h": "c",
+        "app_usbd_cdc_acm.h": "c",
+        "nrf_drv_twi.h": "c",
+        "nrfx_twim.h": "c",
+        "config.h": "c",
+        "conf.h": "c",
+        "i2c.h": "c"
     }
 }

@@ -1,7 +1,7 @@
 #ifndef EEPROM_H
 #define EEPROM_H
 
-#include "config.h"
+#include "conf.h"
 
 // Assuming twi_instance is already initialized nrf_drv_twi instance
 extern const nrf_drv_twi_t m_twi;

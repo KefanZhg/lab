@@ -1,7 +1,10 @@
 #ifndef APP_H
 #define APP_H
 
-#include "config.h"
+#include "conf.h"
+
+// Include modules
+#include "eeprom.h"
 
 void app_init(void);
 
