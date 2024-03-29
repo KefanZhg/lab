@@ -48,7 +48,7 @@ SRC_FILES += \
   $(SDK_ROOT)/modules/nrfx/mdk/system_nrf52840.c \
   $(SDK_ROOT)/external/freertos/source/croutine.c \
   $(SDK_ROOT)/external/freertos/source/event_groups.c \
-  $(SDK_ROOT)/external/freertos/source/portable/MemMang/heap_5.c \
+  $(SDK_ROOT)/external/freertos/source/portable/MemMang/heap_1.c \
   $(SDK_ROOT)/external/freertos/source/list.c \
   $(SDK_ROOT)/external/freertos/portable/GCC/nrf52/port.c \
   $(SDK_ROOT)/external/freertos/portable/CMSIS/nrf52/port_cmsis.c \
@@ -93,6 +93,7 @@ SRC_FILES += \
 # Include folders common to all targets
 INC_FOLDERS += \
   $(PROJ_DIR)/config \
+  $(PROJ_DIR) \
   $(SDK_ROOT)/components/nfc/ndef/generic/message \
   $(SDK_ROOT)/components/nfc/t2t_lib \
   $(SDK_ROOT)/components/nfc/t4t_parser/hl_detection_procedure \

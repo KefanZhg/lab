@@ -93,6 +93,7 @@ SRC_FILES += \
 # Include folders common to all targets
 INC_FOLDERS += \
   $(PROJ_DIR)/config \
+  $(PROJ_DIR) \
   $(SDK_ROOT)/components/nfc/ndef/generic/message \
   $(SDK_ROOT)/components/nfc/t2t_lib \
   $(SDK_ROOT)/components/nfc/t4t_parser/hl_detection_procedure \
@@ -256,6 +257,8 @@ CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 # keep every function in a separate section, this allows linker to discard unused ones
 CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
 CFLAGS += -fno-builtin -fshort-enums
+# Use app config
+CFLAGS += -DUSE_APP_CONFIG
 
 # C++ flags common to all targets
 CXXFLAGS += $(OPT)
@@ -272,6 +275,8 @@ ASMFLAGS += -DNRF52840_XXAA
 ASMFLAGS += -DNRF_SD_BLE_API_VERSION=7
 ASMFLAGS += -DS140
 ASMFLAGS += -DSOFTDEVICE_PRESENT
+# Use app config
+ASMFLAGS += -DUSE_APP_CONFIG
 
 # Linker flags
 LDFLAGS += $(OPT)

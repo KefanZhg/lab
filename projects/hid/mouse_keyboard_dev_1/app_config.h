@@ -3,10 +3,10 @@
 
 #include "stdint.h"
 
-#ifdef BOARD_KIK0001
+#if defined(BOARD_KIK0001)
 #define APP_CONFIG_RX_PIN_NUMBER  6
 #define APP_CONFIG_TX_PIN_NUMBER  26
-#elif BOARD_PCA10056
+#elif defined(BOARD_PCA10056)
 #define APP_CONFIG_RX_PIN_NUMBER  8
 #define APP_CONFIG_TX_PIN_NUMBER  6
 #endif
