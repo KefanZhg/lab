@@ -23,9 +23,9 @@ void i2c_read(i2c_t *i2c, uint8_t address, uint8_t *data, uint8_t size);
 bool i2c_lock(i2c_t *i2c);
 bool i2c_unlock(i2c_t *i2c);
 
-void i2c_write_reg(i2c_t *i2c, uint8_t address, uint32_t reg, size_t reg_size, uint8_t *data, size_t size);
-void i2c_read_reg(i2c_t *i2c, uint8_t address, uint32_t reg, size_t reg_size, uint8_t *data, size_t size);
+void i2c_write_reg(i2c_t *i2c, uint8_t address, uint32_t reg, uint8_t reg_size, uint8_t *data, uint8_t size);
+void i2c_read_reg(i2c_t *i2c, uint8_t address, uint32_t reg, uint8_t reg_size, uint8_t *data, uint8_t size);
 
-void i2c_read_reg_block(i2c_t *i2c, uint8_t address, uint32_t reg, size_t reg_size, uint8_t *data, size_t size);
+void i2c_read_reg_block(i2c_t *i2c, uint8_t address, uint32_t reg, uint8_t reg_size, uint8_t *data, uint8_t size);
 
 #endif // I2C_H

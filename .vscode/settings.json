@@ -23,6 +23,13 @@
         "config.h": "c",
         "conf.h": "c",
         "i2c.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "keymap.h": "c",
+        "array": "c",
+        "bitset": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "ranges": "c",
+        "utility": "c"
     }
 }

@@ -113,7 +113,7 @@ bool i2c_unlock(i2c_t *i2c)
     return true;
 }
 
-void i2c_write_reg(i2c_t *i2c, uint8_t address, uint32_t reg, size_t reg_size, uint8_t *data, size_t size)
+void i2c_write_reg(i2c_t *i2c, uint8_t address, uint32_t reg, uint8_t reg_size, uint8_t *data, uint8_t size)
 {
     // uint8_t buffer[reg_size + size];
     uint8_t * buffer = pvPortMalloc(reg_size + size);
@@ -128,14 +128,15 @@ void i2c_write_reg(i2c_t *i2c, uint8_t address, uint32_t reg, size_t reg_size, u
     i2c_write(i2c, address, buffer, reg_size + size, true);
 }
 
-void i2c_read_reg(i2c_t *i2c, uint8_t address, uint32_t reg, size_t reg_size, uint8_t *data, size_t size)
+void i2c_read_reg(i2c_t *i2c, uint8_t address, uint32_t reg, uint8_t reg_size, uint8_t *data, uint8_t size)
 {
     i2c_write(i2c, address, (uint8_t *)&reg, reg_size, false);
     i2c_read(i2c, address, data, size);
 }
 
-void i2c_read_reg_block(i2c_t *i2c, uint8_t address, uint32_t reg, size_t reg_size, uint8_t *data, size_t size)
+void i2c_read_reg_block(i2c_t *i2c, uint8_t address, uint32_t reg, uint8_t reg_size, uint8_t *data, uint8_t size)
 {
+    // NRF_LOG_DEBUG("i2c_read_reg_block: address=0x%02X, reg=0x%04X, reg_size=%d, size=%d", address, reg, reg_size, size);
     i2c_write(i2c, address, (uint8_t *)&reg, reg_size, false);
     i2c_read(i2c, address, data, size);
     if(i2c_lock(i2c))

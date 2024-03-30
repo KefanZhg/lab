@@ -53,22 +53,20 @@ void app_thread(void * arg)
     UNUSED_VARIABLE(count);
     UNUSED_VARIABLE(read_count);
     UNUSED_PARAMETER(arg);
+    UNUSED_VARIABLE(utmp);
+    // // // Read keymap
+    // keymap_reset();
+    // keymap_write(&eeprom, 0);
+    // // Wait 10 ms
+    // vTaskDelay(pdMS_TO_TICKS(100));
+    keymap_read(&eeprom, 0);
+    // Print keymap as a table
+    keymap_print();
     for(;;)
     {
         // Sleep 1 second
         vTaskDelay(pdMS_TO_TICKS(900));
         // Print time
-        // NRF_LOG_DEBUG("Time: %d", xTaskGetTickCount());
-        count += 4;
-        // Write to EEPROM
-        // Get time
-        utmp = xTaskGetTickCount();
-        eeprom_write(&eeprom, count & 0x0FFF, (uint8_t *)&utmp, sizeof(utmp));
-        // Delay 10ms
-        vTaskDelay(pdMS_TO_TICKS(10));
-        // // Read from EEPROM
-        eeprom_read(&eeprom, count & 0x0FFF, (uint8_t *)&read_count, sizeof(read_count));
-        // // Print read value
-        NRF_LOG_DEBUG("Write: 0x%08X, Read: 0x%08X", utmp, read_count);
+        NRF_LOG_DEBUG("Time: %d", xTaskGetTickCount());
     }
 }

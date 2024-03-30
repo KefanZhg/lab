@@ -97,6 +97,7 @@ SRC_FILES += \
   $(PROJ_DIR)/module/eeprom.c \
   $(PROJ_DIR)/application/app.c \
   $(PROJ_DIR)/application/conf.c \
+  $(PROJ_DIR)/application/keymap.c \
   $(PROJ_DIR)/driver/i2c.c \
 
 # Include folders common to all targets

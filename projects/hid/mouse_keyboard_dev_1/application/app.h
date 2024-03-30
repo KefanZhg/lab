@@ -5,6 +5,7 @@
 
 // Include modules
 #include "eeprom.h"
+#include "keymap.h"
 
 void app_init(void);
 
