@@ -6,14 +6,33 @@ void i2c_handle(nrf_drv_twi_evt_t const *p_event, void *p_context)
     i2c_t *i2c = (i2c_t *)p_context;
     UNUSED_VARIABLE(i2c);
 
-    NRF_LOG_DEBUG("I2C event: %d", p_event->type);
-    NRF_LOG_DEBUG("I2C address: %p", p_context);
+    // NRF_LOG_DEBUG("I2C event: %d", p_event->type);
+    // NRF_LOG_DEBUG("I2C address: %p", p_context);
 
     switch (p_event->type)
     {
     case NRF_DRV_TWI_EVT_DONE:
         i2c_unlock(i2c);
+        if(i2c->to_free != NULL)
+        {
+            vPortFree(i2c->to_free);
+            i2c->to_free = NULL;
+        }
         break;
+    case NRF_DRV_TWI_EVT_ADDRESS_NACK:
+        i2c_unlock(i2c);
+        if(i2c->to_free != NULL)
+        {
+            vPortFree(i2c->to_free);
+            i2c->to_free = NULL;
+        }
+    case NRF_DRV_TWI_EVT_DATA_NACK:
+        i2c_unlock(i2c);
+        if(i2c->to_free != NULL)
+        {
+            vPortFree(i2c->to_free);
+            i2c->to_free = NULL;
+        }
     default:
         break;
     }
@@ -46,11 +65,19 @@ void i2c_init(i2c_t *i2c, uint8_t sda_pin, uint8_t scl_pin, uint32_t frequency)
     }
 }
 
-void i2c_write(i2c_t *i2c, uint8_t address, uint8_t *data, uint8_t size)
+void i2c_write(i2c_t *i2c, uint8_t address, uint8_t *data, uint8_t size, bool to_free)
 {
     if(i2c_lock(i2c))
     {
+        i2c->to_free = to_free ? data : NULL;
         APP_ERROR_CHECK(nrf_drv_twi_tx(&i2c->twi, address, data, size, false));
+    }
+    else
+    {
+        if(to_free)
+        {
+            vPortFree(data);
+        }
     }
 }
 
@@ -88,23 +115,29 @@ bool i2c_unlock(i2c_t *i2c)
 
 void i2c_write_reg(i2c_t *i2c, uint8_t address, uint32_t reg, size_t reg_size, uint8_t *data, size_t size)
 {
-    uint8_t buffer[reg_size + size];
+    // uint8_t buffer[reg_size + size];
+    uint8_t * buffer = pvPortMalloc(reg_size + size);
+    if(buffer == NULL)
+    {
+        APP_ERROR_HANDLER(NRF_ERROR_NO_MEM);
+        return;
+    }
     memcpy(buffer, &reg, reg_size);
     memcpy(buffer + reg_size, data, size);
 
-    i2c_write(i2c, address, buffer, reg_size + size);
+    i2c_write(i2c, address, buffer, reg_size + size, true);
 }
 
 void i2c_read_reg(i2c_t *i2c, uint8_t address, uint32_t reg, size_t reg_size, uint8_t *data, size_t size)
 {
-    i2c_write(i2c, address, (uint8_t *)&reg, reg_size);
+    i2c_write(i2c, address, (uint8_t *)&reg, reg_size, false);
     i2c_read(i2c, address, data, size);
 }
 
 void i2c_read_reg_block(i2c_t *i2c, uint8_t address, uint32_t reg, size_t reg_size, uint8_t *data, size_t size)
 {
-    i2c_write(i2c, address, (uint8_t *)&reg, reg_size);
+    i2c_write(i2c, address, (uint8_t *)&reg, reg_size, false);
     i2c_read(i2c, address, data, size);
-    i2c_lock(i2c);
-    i2c_unlock(i2c);
+    if(i2c_lock(i2c))
+        i2c_unlock(i2c);
 }

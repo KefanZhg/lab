@@ -19,7 +19,7 @@ void app_init(void)
     // APP_ERROR_CHECK(err_code);
 
     // nrf_drv_twi_enable(&app_twi);
-    i2c_init(&app_i2c, TWI_SDA_PIN, TWI_SCL_PIN, NRF_DRV_TWI_FREQ_400K);
+    i2c_init(&app_i2c, TWI_SDA_PIN, TWI_SCL_PIN, NRF_DRV_TWI_FREQ_100K);
 
 
     // Init modules
@@ -61,7 +61,7 @@ void app_thread(void * arg)
         // Write to EEPROM
         eeprom_write(count & 0x0FFF, (uint8_t *)&count, sizeof(count));
         // // Read from EEPROM
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(10));
         eeprom_read(count & 0x0FFF, (uint8_t *)&read_count, sizeof(read_count));
         // // Print read value
         i2c_lock(&app_i2c);

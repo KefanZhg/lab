@@ -12,10 +12,12 @@ typedef struct i2c_s
 
     SemaphoreHandle_t mutex;
 
+    void * to_free;
+
 } i2c_t;
 
 void i2c_init(i2c_t *i2c, uint8_t sda_pin, uint8_t scl_pin, uint32_t frequency);
-void i2c_write(i2c_t *i2c, uint8_t address, uint8_t *data, uint8_t size);
+void i2c_write(i2c_t *i2c, uint8_t address, uint8_t *data, uint8_t size, bool to_free);
 void i2c_read(i2c_t *i2c, uint8_t address, uint8_t *data, uint8_t size);
 
 bool i2c_lock(i2c_t *i2c);
