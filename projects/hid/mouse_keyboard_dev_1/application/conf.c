@@ -9,3 +9,5 @@ i2c_t app_i2c = {
     .twi = NRF_DRV_TWI_INSTANCE(APP_TWI_INSTANCE_ID),
     .mutex = NULL,
 };
+
+eeprom_t eeprom;

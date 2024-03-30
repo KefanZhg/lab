@@ -59,6 +59,7 @@
 
 // Include drivers
 #include "i2c.h"
+#include "eeprom.h"
 
 // Pin definitions
 #define LED_PIN 46
@@ -80,8 +81,12 @@
 
 #define APP_TWI_INSTANCE_ID 0
 
+#define EEPROM_ADDRESS (0x50) // The I2C address of the AT24C256, might need adjustment based on the hardware setup
+
 // External variables
 extern i2c_t app_i2c;
 extern const nrf_drv_twi_t app_twi;
+
+extern eeprom_t eeprom;
 
 #endif // CONFIG_H

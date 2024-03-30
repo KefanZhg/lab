@@ -1,15 +1,16 @@
 #ifndef EEPROM_H
 #define EEPROM_H
 
-#include "conf.h"
+#include "i2c.h"
 
-// Assuming twi_instance is already initialized nrf_drv_twi instance
-extern const nrf_drv_twi_t m_twi;
+typedef struct eeprom_s
+{
+    i2c_t * i2c;
+    uint8_t addr;
+} eeprom_t;
 
-#define EEPROM_ADDRESS (0x50) // The I2C address of the AT24C256, might need adjustment based on the hardware setup
-
-void eeprom_init(void);
-void eeprom_write(uint16_t address, uint8_t * data, uint8_t size);
-void eeprom_read(uint16_t address, uint8_t * data, uint8_t size);
+void eeprom_init(eeprom_t * eeprom, i2c_t * i2c, uint8_t addr);
+void eeprom_write(eeprom_t * eeprom, uint16_t address, uint8_t * data, uint8_t size);
+void eeprom_read(eeprom_t * eeprom, uint16_t address, uint8_t * data, uint8_t size);
 
 #endif // EEPROM_H

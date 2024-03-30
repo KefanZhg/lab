@@ -22,6 +22,7 @@
         "nrfx_twim.h": "c",
         "config.h": "c",
         "conf.h": "c",
-        "i2c.h": "c"
+        "i2c.h": "c",
+        "string.h": "c"
     }
 }

@@ -20,6 +20,7 @@ void app_init(void)
 
     // nrf_drv_twi_enable(&app_twi);
     i2c_init(&app_i2c, TWI_SDA_PIN, TWI_SCL_PIN, NRF_DRV_TWI_FREQ_100K);
+    eeprom_init(&eeprom, &app_i2c, EEPROM_ADDRESS);
 
 
     // Init modules
@@ -48,6 +49,7 @@ void app_thread(void * arg)
 {
     static uint32_t count = 0;
     static uint32_t read_count = 0;
+    static uint32_t utmp;
     UNUSED_VARIABLE(count);
     UNUSED_VARIABLE(read_count);
     UNUSED_PARAMETER(arg);
@@ -59,13 +61,14 @@ void app_thread(void * arg)
         // NRF_LOG_DEBUG("Time: %d", xTaskGetTickCount());
         count += 4;
         // Write to EEPROM
-        eeprom_write(count & 0x0FFF, (uint8_t *)&count, sizeof(count));
-        // // Read from EEPROM
+        // Get time
+        utmp = xTaskGetTickCount();
+        eeprom_write(&eeprom, count & 0x0FFF, (uint8_t *)&utmp, sizeof(utmp));
+        // Delay 10ms
         vTaskDelay(pdMS_TO_TICKS(10));
-        eeprom_read(count & 0x0FFF, (uint8_t *)&read_count, sizeof(read_count));
+        // // Read from EEPROM
+        eeprom_read(&eeprom, count & 0x0FFF, (uint8_t *)&read_count, sizeof(read_count));
         // // Print read value
-        i2c_lock(&app_i2c);
-        NRF_LOG_DEBUG("Write: 0x%08X, Read: 0x%08X", count, read_count);
-        i2c_unlock(&app_i2c);
+        NRF_LOG_DEBUG("Write: 0x%08X, Read: 0x%08X", utmp, read_count);
     }
 }
