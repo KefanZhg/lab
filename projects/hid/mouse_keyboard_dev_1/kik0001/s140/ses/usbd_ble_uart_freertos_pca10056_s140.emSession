@@ -60,10 +60,10 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="917" useTextEdit="1" path="../../../main.c" left="0" top="895" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="917" useTextEdit="1" path="../../../main.c" left="0" top="893" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="9" y="46" useTextEdit="1" path="../config/sdk_config.h" left="0" top="31" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="38" y="100" useTextEdit="1" path="../../../../../../lib/nrf5-sdk/components/libraries/uart/retarget.c" left="0" top="85" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="52" useTextEdit="1" path="../../../app_config.h" left="0" selected="1" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="48" y="16" useTextEdit="1" path="../../../app_config.h" left="0" top="2" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="15" y="217" useTextEdit="1" path="../../../../../../lib/nrf5-sdk/components/boards/boards.c" left="0" top="176" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="78" y="33" useTextEdit="1" openedFrom="S:/GitHub/nrf52-trails/lib/nrf5-sdk/components/boards/boards.c" path="../../../../../../lib/nrf5-sdk/components/boards/kik0001.h" left="0" top="24" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="49" y="77" useTextEdit="1" openedFrom="S:/GitHub/nrf52-trails/lib/nrf5-sdk/components/boards/boards.c" path="../../../../../../lib/nrf5-sdk/components/libraries/util/nrf_assert.h" left="0" top="57" codecName="Default"/>
@@ -73,7 +73,9 @@
   <SessionOpenFile windowGroup="DockEditLeft" x="5" y="243" useTextEdit="1" openedFrom="/home/kefanzhg/Repos/nrf52-trails/lib/nrf5-sdk/integration/nrfx/legacy/nrf_drv_twi.h" path="../../../../../../lib/nrf5-sdk/modules/nrfx/drivers/include/nrfx_twim.h" left="0" top="221" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="25" y="42" useTextEdit="1" path="../../../../../../lib/nrf5-sdk/modules/nrfx/drivers/src/nrfx_twim.c" left="0" top="30" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="23" y="1115" useTextEdit="1" openedFrom="/home/kefanzhg/Repos/nrf52-trails/lib/nrf5-sdk/modules/nrfx/drivers/src/nrfx_twim.c" path="../../../../../../lib/nrf5-sdk/integration/nrfx/legacy/apply_old_config.h" left="0" top="1098" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="19" useTextEdit="1" path="../../../application/app.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="19" useTextEdit="1" path="../../../application/app.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../application/keymap.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="9" y="27" useTextEdit="1" path="../../../driver/i2c.c" left="0" selected="1" top="0" codecName="Default"/>
  </Files>
- <EMStudioWindow activeProject="usbd_ble_uart_freertos_pca10056_s140" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <EMStudioWindow activeProject="usbd_ble_uart_freertos_pca10056_s140" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>
