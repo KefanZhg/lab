@@ -60,6 +60,7 @@
 // Include drivers
 #include "i2c.h"
 #include "eeprom.h"
+#include "tmag5170_nrf5.h"
 
 // Pin definitions
 #define LED_PIN 46
@@ -88,5 +89,7 @@ extern i2c_t app_i2c;
 extern const nrf_drv_twi_t app_twi;
 
 extern eeprom_t eeprom;
+
+extern tmag5170_t tmag5170s[TMAG5170_NUM_SENSORS];
 
 #endif // CONFIG_H

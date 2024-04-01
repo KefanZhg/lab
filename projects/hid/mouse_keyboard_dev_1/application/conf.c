@@ -11,3 +11,5 @@ i2c_t app_i2c = {
 };
 
 eeprom_t eeprom;
+
+tmag5170_t tmag5170s[TMAG5170_NUM_SENSORS];

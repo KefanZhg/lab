@@ -95,10 +95,13 @@ SRC_FILES += \
   # Application specific source files
 SRC_FILES += \
   $(PROJ_DIR)/module/eeprom.c \
+  $(PROJ_DIR)/module/tmag5170_nrf5.c \
+  $(PROJ_DIR)/module/tmag5170.c \
   $(PROJ_DIR)/application/app.c \
   $(PROJ_DIR)/application/conf.c \
   $(PROJ_DIR)/application/keymap.c \
   $(PROJ_DIR)/driver/i2c.c \
+  $(PROJ_DIR)/driver/spi.c \
 
 # Include folders common to all targets
 INC_FOLDERS += \
