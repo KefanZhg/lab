@@ -37,47 +37,8 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include <stdint.h>
-#include <stdbool.h>
-#include <stddef.h>
-
-#include "nrf.h"
-#include "nrf_drv_usbd.h"
-#include "nrf_drv_clock.h"
-#include "nrf_gpio.h"
-#include "nrf_drv_power.h"
-
-#include "app_timer.h"
-#include "app_usbd.h"
-#include "app_usbd_core.h"
-#include "app_usbd_hid_mouse.h"
-#include "app_usbd_hid_kbd.h"
-#include "app_usbd_dummy.h"
-#include "app_error.h"
-#include "bsp.h"
-
-#include "bsp_cli.h"
-#include "nrf_cli.h"
-#include "nrf_cli_uart.h"
-
-#include "nrf_log.h"
-#include "nrf_log_ctrl.h"
-#include "nrf_log_default_backends.h"
 
 #include "usr_app.h"
-
-
-#if NRF_CLI_ENABLED
-/**
- * @brief CLI interface over UART
- */
-NRF_CLI_UART_DEF(m_cli_uart_transport, 0, 64, 16);
-NRF_CLI_DEF(m_cli_uart,
-            "uart_cli:~$ ",
-            &m_cli_uart_transport.transport,
-            '\r',
-            4);
-#endif
 
 /**
  * @brief Enable USB power detection
@@ -345,7 +306,7 @@ void start_timer(void)
             UNUSED_RETURN_VALUE(app_timer_start(m_mouse_move_timer, APP_TIMER_TICKS(CONFIG_MOUSE_MOVE_TIME_MS), NULL));
 }
 
-static void bsp_event_callback(bsp_event_t ev)
+void bsp_event_callback(bsp_event_t ev)
 {
     switch ((unsigned int)ev)
     {
@@ -411,21 +372,6 @@ void init_bsp(void)
     bsp_board_init(BSP_INIT_LEDS);
 }
 
-static void init_cli(void)
-{
-    ret_code_t ret;
-    ret = bsp_cli_init(bsp_event_callback);
-    APP_ERROR_CHECK(ret);
-    nrf_drv_uart_config_t uart_config = NRF_DRV_UART_DEFAULT_CONFIG;
-    uart_config.pseltxd = APP_TX_PIN_NUMBER;
-    uart_config.pselrxd = APP_RX_PIN_NUMBER;
-    uart_config.hwfc    = NRF_UART_HWFC_DISABLED;
-    uart_config.baudrate= APP_CONFIG_DEFAULT_UART_BAUDRATE; // Set baudrate to 921600
-    ret = nrf_cli_init(&m_cli_uart, &uart_config, true, true, NRF_LOG_SEVERITY_INFO);
-    APP_ERROR_CHECK(ret);
-    ret = nrf_cli_start(&m_cli_uart);
-    APP_ERROR_CHECK(ret);
-}
 
 int main(void)
 {
@@ -454,9 +400,7 @@ int main(void)
 
     // init_bsp();
 
-#if NRF_CLI_ENABLED
     init_cli();
-#endif
 
     ret = app_usbd_init(&usbd_config);
     APP_ERROR_CHECK(ret);
@@ -498,9 +442,8 @@ int main(void)
         {
             /* Nothing to do */
         }
-#if NRF_CLI_ENABLED
-        nrf_cli_process(&m_cli_uart);
-#endif
+
+        nrf_cli_process(p_cli);
 
         usr_app_run();
 

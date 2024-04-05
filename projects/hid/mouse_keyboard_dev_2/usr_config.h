@@ -1,18 +1,27 @@
 #ifndef USR_CONFIG_H_
 #define USR_CONFIG_H_
 
-#include "nrf.h"
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <string.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>
 
-#include "nrf_cli.h"
-#include "nrf_log.h"
+#include "nrf.h"
 #include "nrf_delay.h"
+#include "nrf_gpio.h"
 
 #include "nrfx_saadc.h"
 
+#include "nrf_drv_clock.h"
 #include "nrf_drv_saadc.h"
-#include "nrf_drv_saadc.h"
+#include "nrf_drv_power.h"
 #include "nrf_drv_ppi.h"
 #include "nrf_drv_timer.h"
+#include "nrf_drv_usbd.h"
 
 #include "nrf_pwr_mgmt.h"
 
@@ -28,6 +37,10 @@
 #include "app_usbd_hid_kbd.h"
 #include "app_usbd_dummy.h"
 #include "app_error.h"
+
+#include "bsp_cli.h"
+#include "nrf_cli.h"
+#include "nrf_cli_uart.h"
 
 #include "boards.h"
 #include "inttypes.h"
