@@ -46,7 +46,8 @@ void tmag5170_init(tmag5170_t * p_tmag5170)
     spi_config.mosi_pin = SPI_MOSI_PIN;
     spi_config.sck_pin  = SPI_SCK_PIN;
 
-    err_code = nrf_drv_spi_init(p_tmag5170->p_spi, &spi_config, spi_event_handler, NULL);
+    // err_code = nrf_drv_spi_init(p_tmag5170->p_spi, &spi_config, spi_event_handler, NULL);
+    err_code = nrf_drv_spi_init(p_tmag5170->p_spi, &spi_config, NULL, NULL);
     if (err_code != NRF_SUCCESS)
     {
         NRF_LOG_ERROR("SPI initialization failed.");

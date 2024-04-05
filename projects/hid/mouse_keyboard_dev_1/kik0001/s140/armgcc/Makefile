@@ -68,6 +68,8 @@ SRC_FILES += \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_power.c \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_twi.c \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_twim.c \
+  $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_spi.c \
+  $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_spim.c \
   $(SDK_ROOT)/modules/nrfx/drivers/src/prs/nrfx_prs.c \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_systick.c \
   $(SDK_ROOT)/modules/nrfx/drivers/src/nrfx_uart.c \
@@ -102,6 +104,7 @@ SRC_FILES += \
   $(PROJ_DIR)/application/keymap.c \
   $(PROJ_DIR)/driver/i2c.c \
   $(PROJ_DIR)/driver/spi.c \
+  $(PROJ_DIR)/driver/data.c \
 
 # Include folders common to all targets
 INC_FOLDERS += \

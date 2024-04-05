@@ -20,10 +20,14 @@ void app_init(void)
 
     // nrf_drv_twi_enable(&app_twi);
     i2c_init(&app_i2c, TWI_SDA_PIN, TWI_SCL_PIN, NRF_DRV_TWI_FREQ_100K);
-    eeprom_init(&eeprom, &app_i2c, EEPROM_ADDRESS);
+
 
 
     // Init modules
+    eeprom_init(&eeprom, &app_i2c, EEPROM_ADDRESS);
+
+    tmag5170s->cs_pin = 32;
+    tmag5170_init(&tmag5170s[0]);
 
 
     // Init threads

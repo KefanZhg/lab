@@ -1,7 +1,7 @@
 #include "i2c.h"
 #include "nrf_log.h"
 
-void i2c_handle(nrf_drv_twi_evt_t const *p_event, void *p_context)
+void i2c_handler(nrf_drv_twi_evt_t const *p_event, void *p_context)
 {
     i2c_t *i2c = (i2c_t *)p_context;
     UNUSED_VARIABLE(i2c);
@@ -53,7 +53,7 @@ void i2c_init(i2c_t *i2c, uint8_t sda_pin, uint8_t scl_pin, uint32_t frequency)
     };
     NRF_LOG_DEBUG("I2C address: %p", i2c);
 
-    err_code = nrf_drv_twi_init(&i2c->twi, &twi_config, i2c_handle, i2c);
+    err_code = nrf_drv_twi_init(&i2c->twi, &twi_config, i2c_handler, i2c);
     APP_ERROR_CHECK(err_code);
 
     nrf_drv_twi_enable(&i2c->twi);
