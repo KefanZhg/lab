@@ -15,6 +15,10 @@
 #include "nrf_gpio.h"
 
 #include "nrfx_saadc.h"
+#include "nrfx_spi.h"
+#include "nrfx_spim.h"
+#include "nrfx_uart.h"
+#include "nrfx_uarte.h"
 
 #include "nrf_drv_clock.h"
 #include "nrf_drv_saadc.h"
@@ -22,7 +26,10 @@
 #include "nrf_drv_ppi.h"
 #include "nrf_drv_timer.h"
 #include "nrf_drv_usbd.h"
+#include "nrf_drv_spi.h"
+#include "nrf_drv_uart.h"
 
+#include "nrf_spi_mngr.h"
 #include "nrf_pwr_mgmt.h"
 
 #include "nrf_log.h"
@@ -54,5 +61,27 @@
 #define USR_MOUSE_SIGNAL_MARGIN  10
 #define USR_MOUSE_SIGNAL_SCALE   40
 #define USR_MOUSE_TIMER_INTERVAL 10
+
+typedef enum {
+    USR_BTN_TYPE_KBD_GENERAL = 0,
+    USR_BTN_TYPE_KBD_MODIFIER,
+    USR_BTN_TYPE_MOUSE,
+    USR_BTN_TYPE_JOYSTICK,
+    USR_BTN_TYPE_MAX
+} usr_btn_type_t;
+
+typedef enum {
+    USR_BTN_STATE_RELEASE = 0,
+    USR_BTN_STATE_PRESS,
+    USR_BTN_STATE_TAP,
+    USR_BTN_STATE_MAX
+} usr_btn_state_t;
+
+typedef enum {
+    USR_MOUSE_AXIS_X = 0,
+    USR_MOUSE_AXIS_Y,
+    USR_MOUSE_AXIS_SCROLL,
+    USR_MOUSE_AXIS_MAX
+} usr_mouse_axis_t;
 
 #endif /* USR_CONFIG_H_ */

@@ -8,6 +8,8 @@
 #include "usr_kbd.h"
 #include "usr_mouse.h"
 
+#include "usr_select.h"
+
 void usr_app_init(uint8_t master, app_usbd_hid_mouse_t const * p_mouse);
 void usr_app_run(void);
 

@@ -7,7 +7,7 @@ void usr_app_init(uint8_t master, app_usbd_hid_mouse_t const * p_mouse)
 {
   usr_app_master = master;
   usr_joystick_btn_id = master ? 0 : 1; // If master, left hand, otherwise, right hand
-  
+
   if (master)
   {
     NRF_LOG_INFO("Running as master!");
@@ -19,17 +19,12 @@ void usr_app_init(uint8_t master, app_usbd_hid_mouse_t const * p_mouse)
 
   usr_mouse_init(p_mouse);
   usr_btn_init();
+  usr_select_init();
   return;
 }
 
 void usr_app_run(void)
 {
-  //NRF_LOG_INFO("usr_app_run\r\n");
-  //NRF_LOG_INFO("usr_mouse_dis_rst[0]: %d\r\n", usr_mouse_dis_rst[0]);
-  //NRF_LOG_INFO("usr_mouse_dis_rst[1]: %d\r\n", usr_mouse_dis_rst[1]);
-  // Wait for a while
-  NRF_LOG_FLUSH();
-  nrf_delay_ms(10);
   return;
 }
 

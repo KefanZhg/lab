@@ -27,7 +27,7 @@ void init_cli(void)
     uart_config.pselrxd = APP_RX_PIN_NUMBER;
     uart_config.hwfc    = NRF_UART_HWFC_DISABLED;
     uart_config.baudrate= APP_CONFIG_DEFAULT_UART_BAUDRATE; // Set baudrate to 921600
-    ret = nrf_cli_init(p_cli, &uart_config, true, true, NRF_LOG_SEVERITY_INFO);
+    ret = nrf_cli_init(p_cli, &uart_config, false, true, NRF_LOG_SEVERITY_INFO);
     APP_ERROR_CHECK(ret);
     ret = nrf_cli_start(p_cli);
     APP_ERROR_CHECK(ret);

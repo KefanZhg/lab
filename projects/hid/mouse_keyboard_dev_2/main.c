@@ -443,11 +443,12 @@ int main(void)
             /* Nothing to do */
         }
 
+        nrf_cli_process(p_usr_select_cli);
         nrf_cli_process(p_cli);
 
         usr_app_run();
 
-        UNUSED_RETURN_VALUE(NRF_LOG_PROCESS());
+        NRF_LOG_FLUSH();
         /* Sleep CPU only if there was no interrupt since last loop processing */
         __WFE();
     }
