@@ -13,4 +13,7 @@ __pycache__/
 .DS_Store
 
 # Editor
-.vscode/settings.json
+**/.vscode/settings.json
+
+# Compiled firmware binaries
+*.hex

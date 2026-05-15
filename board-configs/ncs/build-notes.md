@@ -7,7 +7,7 @@
 | SDK | `/opt/nordic/ncs/v3.3.0` |
 | Toolchain | `0c0f19d91c` (`/opt/nordic/ncs/toolchains/0c0f19d91c`) |
 | Board target | `nrf54l15dk/nrf54l15/cpuapp` |
-| Board serial | `1057789255` (PCA10156) |
+| Board serial | `<YOUR_DK_SERIAL>` (PCA10156) |
 | Host | macOS arm64 |
 
 ## 常用命令
@@ -23,10 +23,10 @@ cd /opt/nordic/ncs/v3.3.0
 west build -p -b nrf54l15dk/nrf54l15/cpuapp <sample_path> -d <build_dir>
 
 # Flash（必须用 --runner jlink，见下方说明）
-west flash -d <build_dir> --dev-id 1057789255 --runner jlink
+west flash -d <build_dir> --dev-id <YOUR_DK_SERIAL> --runner jlink
 
 # Reset & Run（flash 后如果没自动启动）
-JLinkExe -USB 1057789255 -nogui 1 -if swd -speed 4000 -device nRF54L15_M33 \
+JLinkExe -USB <YOUR_DK_SERIAL> -nogui 1 -if swd -speed 4000 -device nRF54L15_M33 \
   -CommanderScript /dev/stdin <<'EOF'
 r
 g
@@ -37,7 +37,7 @@ EOF
 "/Users/kirk/Library/Application Support/nrfconnect/nrfutil-sandboxes/arm64/device/2.17.5/bin/nrfutil-device" list
 
 # 调试：halt + 读寄存器（排查崩溃用）
-JLinkExe -USB 1057789255 -nogui 1 -if swd -speed 4000 -device nRF54L15_M33 \
+JLinkExe -USB <YOUR_DK_SERIAL> -nogui 1 -if swd -speed 4000 -device nRF54L15_M33 \
   -CommanderScript /dev/stdin <<'EOF'
 halt
 regs
@@ -133,13 +133,13 @@ PWM21 overlay 写法见 `blinky_pwm/boards/nrf54l15dk_nrf54l15_cpuapp.overlay`�
 
 | 样例 | 路径 | 状态 |
 |------|------|------|
-| blinky_pwm（4-LED 改版） | `lab/board-configs/nrf54l15dk/blinky_pwm` | ✅ 运行正常 |
-| button + k_work 消抖 | `lab/board-configs/nrf54l15dk/button` | ✅ 运行正常 |
-| synchronization（sem + mutex） | `lab/board-configs/nrf54l15dk/synchronization` | ✅ 运行正常（VCOM1） |
-| shell_module | `lab/board-configs/nrf54l15dk/shell_module` | ✅ 运行正常（VCOM1，`uart:~$` 提示符） |
-| peripheral_lbs | `lab/board-configs/nrf54l15dk/peripheral_lbs` | ✅ 运行正常（BLE 广播 Nordic_LBS，LED 控制 + Button notify 均验证） |
-| matter_light_bulb | `lab/board-configs/nrf54l15dk/matter_light_bulb` | ✅ Apple Home 控灯 + PWM 调亮度 |
-| matter_light_switch | `lab/board-configs/nrf54l15dk/matter_light_switch` | ✅ Thread 直连 binding 控灯，Button 1 触发 |
+| blinky_pwm（4-LED 改版） | `lab/board-configs/ncs/blinky_pwm` | ✅ 运行正常 |
+| button + k_work 消抖 | `lab/board-configs/ncs/button` | ✅ 运行正常 |
+| synchronization（sem + mutex） | `lab/board-configs/ncs/synchronization` | ✅ 运行正常（VCOM1） |
+| shell_module | `lab/board-configs/ncs/shell_module` | ✅ 运行正常（VCOM1，`uart:~$` 提示符） |
+| peripheral_lbs | `lab/board-configs/ncs/peripheral_lbs` | ✅ 运行正常（BLE 广播 Nordic_LBS，LED 控制 + Button notify 均验证） |
+| matter_light_bulb | `lab/board-configs/ncs/matter_light_bulb` | ✅ Apple Home 控灯 + PWM 调亮度 |
+| matter_light_switch | `lab/board-configs/ncs/matter_light_switch` | ✅ Thread 直连 binding 控灯，Button 1 触发 |
 
 ---
 
