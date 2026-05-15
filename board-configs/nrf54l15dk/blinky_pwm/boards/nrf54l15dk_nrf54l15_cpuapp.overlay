@@ -1,0 +1,45 @@
+/*
+ * nRF54L15 DK overlay for 4-LED demo.
+ *
+ * PWM domain constraint: only GPIO Port P1 pins share the PWM20/21/22 domain.
+ *   LED1 (P1.10) -> pwm20 ch0  (already in board DTS)
+ *   LED3 (P1.14) -> pwm21 ch0  (added here)
+ *   LED0 (P2.9)  -> GPIO only
+ *   LED2 (P2.7)  -> GPIO only
+ */
+
+#include <zephyr/dt-bindings/pinctrl/nrf-pinctrl.h>
+
+/ {
+	pwmleds {
+		pwm_led3: pwm_led_3 {
+			pwms = <&pwm21 0 PWM_MSEC(20) PWM_POLARITY_NORMAL>;
+		};
+	};
+
+	aliases {
+		pwm-led1 = &pwm_led3;
+	};
+};
+
+&pinctrl {
+	pwm21_default: pwm21_default {
+		group1 {
+			psels = <NRF_PSEL(PWM_OUT0, 1, 14)>;
+		};
+	};
+
+	pwm21_sleep: pwm21_sleep {
+		group1 {
+			psels = <NRF_PSEL(PWM_OUT0, 1, 14)>;
+			low-power-enable;
+		};
+	};
+};
+
+&pwm21 {
+	status = "okay";
+	pinctrl-0 = <&pwm21_default>;
+	pinctrl-1 = <&pwm21_sleep>;
+	pinctrl-names = "default", "sleep";
+};

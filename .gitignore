@@ -1,0 +1,16 @@
+# Zephyr/NCS build artifacts
+**/build/
+**/twister-out/
+
+# West workspace
+.west/
+
+# Python
+*.pyc
+__pycache__/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/settings.json

@@ -1,0 +1,24 @@
+#
+# Copyright (c) 2020 Nordic Semiconductor ASA
+#
+# SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
+#
+
+# Set product string for USB device
+config CDC_ACM_SERIAL_PRODUCT_STRING
+	default "Thread CLI"
+	depends on USB_DEVICE_STACK_NEXT
+
+menu "Zephyr Kernel"
+source "Kconfig.zephyr"
+endmenu
+
+module = OT_COMMAND_LINE_INTERFACE
+module-str = ot_cli
+source "$(ZEPHYR_BASE)/subsys/logging/Kconfig.template.log_config"
+
+config CLI_SAMPLE_LOW_POWER
+	bool "Low power mode for the CLI sample"
+
+config CLI_SAMPLE_MULTIPROTOCOL
+	bool "Multiprotocol for the CLI sample"
