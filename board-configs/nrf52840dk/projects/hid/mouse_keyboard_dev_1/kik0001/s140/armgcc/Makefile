@@ -2,7 +2,7 @@ PROJECT_NAME     := keyboard_dev_1
 TARGETS          := nrf52840_xxaa
 OUTPUT_DIRECTORY := _build
 
-SDK_ROOT := ../../../../../../lib/nrf5-sdk/
+SDK_ROOT := ../../../../../../../../lib/nrf5-sdk/
 PROJ_DIR := ../../..
 
 $(OUTPUT_DIRECTORY)/nrf52840_xxaa.out: \
