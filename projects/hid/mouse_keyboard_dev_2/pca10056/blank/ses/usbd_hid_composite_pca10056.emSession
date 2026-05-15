@@ -1,0 +1,90 @@
+<!DOCTYPE CrossStudio_Session_File>
+<session>
+ <Bookmarks/>
+ <Breakpoints groups="Breakpoints" active_group="Breakpoints"/>
+ <ExecutionProfileWindow/>
+ <FrameBuffer>
+  <FrameBufferWindow width="16843009" keepAspectRatio="0" zoomToFitWindow="0" addressSpace="" format="0" height="16843009" autoEvaluate="0" scaleFactor="1" refreshPeriod="0" name="usbd_hid_composite_pca10056_Debug" addressText="" accessByDisplayWidth="0"/>
+ </FrameBuffer>
+ <Memory1>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="usbd_hid_composite_pca10056_Debug" sizeText="" addressText=""/>
+ </Memory1>
+ <Memory2>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="usbd_hid_composite_pca10056_Debug" sizeText="" addressText=""/>
+ </Memory2>
+ <Memory3>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="usbd_hid_composite_pca10056_Debug" sizeText="" addressText=""/>
+ </Memory3>
+ <Memory4>
+  <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="usbd_hid_composite_pca10056_Debug" sizeText="" addressText=""/>
+ </Memory4>
+ <Project>
+  <ProjectSessionItem path="usbd_hid_composite_pca10056"/>
+  <ProjectSessionItem path="usbd_hid_composite_pca10056;usbd_hid_composite_pca10056"/>
+  <ProjectSessionItem path="usbd_hid_composite_pca10056;usbd_hid_composite_pca10056;Application"/>
+  <ProjectSessionItem path="usbd_hid_composite_pca10056;usbd_hid_composite_pca10056;Board Support"/>
+  <ProjectSessionItem path="usbd_hid_composite_pca10056;usbd_hid_composite_pca10056;nRF_Drivers"/>
+  <ProjectSessionItem path="usbd_hid_composite_pca10056;usbd_hid_composite_pca10056;nRF_Libraries"/>
+  <ProjectSessionItem path="usbd_hid_composite_pca10056;usbd_hid_composite_pca10056;nRF_Log"/>
+  <ProjectSessionItem path="usbd_hid_composite_pca10056;usbd_hid_composite_pca10056;nRF_Segger_RTT"/>
+ </Project>
+ <Register1>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="usbd_hid_composite_pca10056_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
+ </Register1>
+ <Register2>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="usbd_hid_composite_pca10056_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
+ </Register2>
+ <Register3>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="usbd_hid_composite_pca10056_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
+ </Register3>
+ <Register4>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="usbd_hid_composite_pca10056_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
+ </Register4>
+ <Threads>
+  <ThreadsWindow showLists=""/>
+ </Threads>
+ <TraceWindow>
+  <Trace enabled="Yes"/>
+ </TraceWindow>
+ <Watch1>
+  <Watches active="1" update="Never"/>
+ </Watch1>
+ <Watch2>
+  <Watches active="0" update="Never"/>
+ </Watch2>
+ <Watch3>
+  <Watches active="0" update="Never"/>
+ </Watch3>
+ <Watch4>
+  <Watches active="0" update="Never"/>
+ </Watch4>
+ <Files>
+  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="6" useTextEdit="1" path="../config/app_config.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="40" y="479" useTextEdit="1" path="../../../main.c" left="0" top="467" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="2405" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/main.c" path="../config/sdk_config.h" left="0" top="2385" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="15" y="2" useTextEdit="1" path="../../../usr_app.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="13" y="195" useTextEdit="1" path="../../../usr_cli.c" left="0" top="140" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../usr_cli.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../usr_config.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="23" y="22" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/usr_app.h" path="../../../usr_config.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="6" useTextEdit="1" path="../../../usr_kbd.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../usr_kbd.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="21" y="7" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/usr_app.c" path="../../../usr_mouse.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="10" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/usr_app.h" path="../../../usr_mouse.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="50" y="351" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/usr_app.c" path="../../../../../../components/libraries/usbd/class/hid/mouse/app_usbd_hid_mouse.c" left="0" top="329" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="70" y="119" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/main.c" path="../../../../../../components/libraries/usbd/class/hid/mouse/app_usbd_hid_mouse.h" left="0" top="98" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="72" y="10" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/usr_app.c" path="../../../usr_app.h" left="0" selected="1" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="133" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/usr_mouse.c" path="../../../../../../integration/nrfx/legacy/nrf_drv_saadc.h" left="0" top="105" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="11" y="173" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/integration/nrfx/legacy/nrf_drv_saadc.h" path="../../../../../../modules/nrfx/drivers/include/nrfx_saadc.h" left="0" top="152" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="6" y="47" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/usr_config.h" path="../../../../../../components/libraries/delay/nrf_delay.h" left="0" top="28" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="44" y="63" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/usr_app.c" path="../../../../../../components/libraries/bsp/bsp.h" left="0" top="38" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="34" y="29" useTextEdit="1" path="../../../../../../components/boards/pca10056.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../../../../components/libraries/bsp/bsp_cli.c" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="46" y="126" useTextEdit="1" path="../../../../../../components/libraries/bsp/bsp.c" left="0" top="108" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="57" y="19" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/usr_config.h" path="../../../../../../components/boards/boards.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="76" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/components/libraries/bsp/bsp.h" path="../../../../../../components/libraries/button/app_button.h" left="0" top="79" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="12" y="223" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/usr_app.c" path="../../../../../../components/libraries/button/app_button.c" left="0" top="198" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="11" y="814" useTextEdit="1" openedFrom="S:/Drive/Umich/Employment/Keyboard/Firmware/nRF5_SDK_v17_1_0/projects/keyboard/usbd_joymouse/main.c" path="../../../../../../components/libraries/usbd/app_usbd.c" left="0" top="897" codecName="Default"/>
+ </Files>
+ <EMStudioWindow activeProject="usbd_hid_composite_pca10056" fileDialogDefaultFilter="*.h" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="S:/Drive/Umich/Employment/Keyboard/Program/nRF5_SDK_17.1.0_ddde560/examples/peripheral/usbd_hid_composite/main.c&#xa;" fileDialogInitialDirectory="S:/Drive/Umich/Employment/Keyboard/Program/nRF5_SDK_v17_1_0/mycode/trails/trail01_cli_keypress/pca10056/blank/config" debugSearchPath="" autoConnectCapabilities="3711"/>
+</session>
