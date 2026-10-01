@@ -51,6 +51,8 @@ static void button_isr(const struct device *dev,
 
 int main(void)
 {
+	/* 等待 UART console 初始化完毕，避免 boot message 丢失 */
+	k_sleep(K_MSEC(3000));
 	printk("Button debounce demo start\n");
 
 	/* 配置 LED 输出 */
@@ -69,6 +71,10 @@ int main(void)
 
 	printk("Press SW0 to toggle LED0\n");
 
-	k_sleep(K_FOREVER);
+	/* 心跳：每 5s 打印一次，方便串口验证固件存活 */
+	while (1) {
+		k_sleep(K_SECONDS(5));
+		printk("alive (LED state: %d)\n", gpio_pin_get_dt(&led));
+	}
 	return 0;
 }
