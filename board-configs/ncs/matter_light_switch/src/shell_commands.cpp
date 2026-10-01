@@ -205,18 +205,19 @@ namespace Group
 using BindingTable = chip::app::Clusters::Binding::Table;
 using BindingEntry = chip::app::Clusters::Binding::TableEntry;
 
-// 写入 unicast binding: switch bind <nodeId_hex> <remoteEndpoint>
-// 示例: switch bind 0x1122334455667788 1
+// 写入 unicast binding: switch bind <localEndpoint> <nodeId_hex> <remoteEndpoint>
+// 示例: switch bind 1 0x1122334455667788 1
 static CHIP_ERROR BindCommandHandler(int argc, char **argv)
 {
-	if (argc < 2) {
-		streamer_printf(streamer_get(), "Usage: switch bind <nodeId_hex> <remoteEndpoint>\r\n");
-		streamer_printf(streamer_get(), "Example: switch bind 0x1122334455667788 1\r\n");
+	if (argc < 3) {
+		streamer_printf(streamer_get(), "Usage: switch bind <localEp> <nodeId_hex> <remoteEp>\r\n");
+		streamer_printf(streamer_get(), "Example: switch bind 1 0x1122334455667788 1\r\n");
 		return CHIP_ERROR_INVALID_ARGUMENT;
 	}
 
-	chip::NodeId nodeId = (chip::NodeId)strtoull(argv[0], nullptr, 0);
-	chip::EndpointId remoteEp = (chip::EndpointId)strtoul(argv[1], nullptr, 0);
+	chip::EndpointId localEp = (chip::EndpointId)strtoul(argv[0], nullptr, 0);
+	chip::NodeId nodeId = (chip::NodeId)strtoull(argv[1], nullptr, 0);
+	chip::EndpointId remoteEp = (chip::EndpointId)strtoul(argv[2], nullptr, 0);
 
 	chip::FabricIndex fabricIndex = chip::kUndefinedFabricIndex;
 	for (const chip::FabricInfo & fabric : chip::Server::GetInstance().GetFabricTable()) {
@@ -228,18 +229,18 @@ static CHIP_ERROR BindCommandHandler(int argc, char **argv)
 		return CHIP_ERROR_INCORRECT_STATE;
 	}
 
-	// 清掉 endpoint 1 上的旧 binding
+	// 清掉 localEp 上的旧 binding
 	auto & table = BindingTable::GetInstance();
 	for (auto iter = table.begin(); iter != table.end();) {
-		if (iter->local == 1) {
+		if (iter->local == localEp) {
 			table.RemoveAt(iter);
 		} else {
 			++iter;
 		}
 	}
 
-	// OnOff binding: TableEntry(fabric, node, localEp, remoteEp, cluster)
-	BindingEntry onoffEntry(fabricIndex, nodeId, 1, remoteEp,
+	// OnOff binding
+	BindingEntry onoffEntry(fabricIndex, nodeId, localEp, remoteEp,
 				std::make_optional(chip::app::Clusters::OnOff::Id));
 	CHIP_ERROR err = table.Add(onoffEntry);
 	if (err != CHIP_NO_ERROR) {
@@ -248,7 +249,7 @@ static CHIP_ERROR BindCommandHandler(int argc, char **argv)
 	}
 
 	// LevelControl binding
-	BindingEntry levelEntry(fabricIndex, nodeId, 1, remoteEp,
+	BindingEntry levelEntry(fabricIndex, nodeId, localEp, remoteEp,
 				std::make_optional(chip::app::Clusters::LevelControl::Id));
 	err = table.Add(levelEntry);
 	if (err != CHIP_NO_ERROR) {
@@ -256,8 +257,8 @@ static CHIP_ERROR BindCommandHandler(int argc, char **argv)
 		return err;
 	}
 
-	streamer_printf(streamer_get(), "Bound to node 0x%llx endpoint %u (fabric %u)\r\n",
-			(unsigned long long)nodeId, remoteEp, fabricIndex);
+	streamer_printf(streamer_get(), "Bound EP%u -> node 0x%llx EP%u (fabric %u)\r\n",
+			localEp, (unsigned long long)nodeId, remoteEp, fabricIndex);
 	return CHIP_NO_ERROR;
 }
 
@@ -284,7 +285,7 @@ void RegisterSwitchCommands()
 		{ &Unicast::OnOffCommandHandler, "onoff", "Usage: switch onoff [on|off|toggle]" },
 		{ &Group::SwitchCommandHandler, "groups", "Usage: switch groups onoff [on|off|toggle]" },
 		{ &TableCommandHelper, "table", "Print a binding table" },
-		{ &BindCommandHandler, "bind", "Bind to a light: switch bind <nodeId_hex> <remoteEndpoint>" },
+		{ &BindCommandHandler, "bind", "Bind: switch bind <localEp> <nodeId_hex> <remoteEp>" },
 		{ &NodesCommandHandler, "nodes", "List commissioned nodes on this fabric" },
 	};
 
