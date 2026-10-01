@@ -34,7 +34,7 @@ q
 EOF
 
 # 查连接的板子 serial
-"/Users/kirk/Library/Application Support/nrfconnect/nrfutil-sandboxes/arm64/device/2.17.5/bin/nrfutil-device" list
+"$HOME/Library/Application Support/nrfconnect/nrfutil-sandboxes/arm64/device/2.17.5/bin/nrfutil-device" list
 
 # 调试：halt + 读寄存器（排查崩溃用）
 JLinkExe -USB <YOUR_DK_SERIAL> -nogui 1 -if swd -speed 4000 -device nRF54L15_M33 \
@@ -138,8 +138,86 @@ PWM21 overlay 写法见 `blinky_pwm/boards/nrf54l15dk_nrf54l15_cpuapp.overlay`�
 | synchronization（sem + mutex） | `lab/board-configs/ncs/synchronization` | ✅ 运行正常（VCOM1） |
 | shell_module | `lab/board-configs/ncs/shell_module` | ✅ 运行正常（VCOM1，`uart:~$` 提示符） |
 | peripheral_lbs | `lab/board-configs/ncs/peripheral_lbs` | ✅ 运行正常（BLE 广播 Nordic_LBS，LED 控制 + Button notify 均验证） |
-| matter_light_bulb | `lab/board-configs/ncs/matter_light_bulb` | ✅ Apple Home 控灯 + PWM 调亮度 |
-| matter_light_switch | `lab/board-configs/ncs/matter_light_switch` | ✅ Thread 直连 binding 控灯，Button 1 触发 |
+| matter_light_bulb | `lab/board-configs/ncs/matter_light_bulb` | 🔄 固件运行正常（shell 可见），待 commission |
+| matter_light_switch | `lab/board-configs/ncs/matter_light_switch` | 🔄 固件运行正常（shell 可见），待 commission |
+
+---
+
+## 串口映射（VCOM0 vs VCOM1）
+
+nRF54L15 DK 通过 J-Link OB 暴露两个 CDC-ACM 虚拟串口。macOS 下编号规则：
+
+| 端口 | macOS 路径（<SERIAL>）| 用途 |
+|------|-------------------------------|------|
+| VCOM0 | `/dev/tty.usbmodem<SERIAL12>1` | 无输出（空闲） |
+| VCOM1 | `/dev/tty.usbmodem<SERIAL12>3` | **Zephyr shell + log**（`uart:~$`） |
+
+`<SERIAL12>` 是 J-Link 序列号（`nrfutil device list` 查）补零到 12 位。
+
+VCOM1 端口号 = VCOM0 + 2（最后一位）。macOS 的 `pyserial` 默认 `dtr=True` 时 VCOM0 没有输出，原因未明；直接用原始 TTY 读 VCOM1 可靠。
+
+**读 shell 最小代码：**
+```python
+import os, time, select, termios
+
+fd = os.open('/dev/tty.usbmodem<SERIAL12>3', os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
+attrs = termios.tcgetattr(fd)
+attrs[0]=0; attrs[1]=0; attrs[2]=termios.CS8|termios.CREAD|termios.CLOCAL
+attrs[3]=0; attrs[4]=termios.B115200; attrs[5]=termios.B115200
+termios.tcsetattr(fd, termios.TCSANOW, attrs)
+
+os.write(fd, b'matter onboardingcodes ble\r\n')
+time.sleep(2)
+r,_,_ = select.select([fd],[],[],1)
+if r: print(os.read(fd, 4096).decode())
+os.close(fd)
+```
+
+---
+
+## fw_info 固件标识系统
+
+所有样例通过 `common/fw_info/` 公共模块自动嵌入构建标识：
+
+| 文件 | 作用 |
+|------|------|
+| `fw_info.cmake` | CMake include，自动计算 CRC、生成 `fw_info_generated.c` |
+| `fw_info.c.in` | 结构体模板，32 字节，含 magic/crc/git_hash/build_time/version/builder_id |
+| `fw_info.ld` | `KEEP(*(.fw_info_block))` 防止 gc-sections 裁掉 |
+| `fw_info_extract.py` | post-build：从 ELF 提取符号地址，写 `build/fw_info.txt` |
+| `verify_fw_info.py` | 验证工具：JLink 读设备内存，对比 CRC 和期望值 |
+
+**使用：** 在 `CMakeLists.txt` 末尾加一行：
+```cmake
+include(${CMAKE_CURRENT_SOURCE_DIR}/../common/fw_info/fw_info.cmake)
+```
+
+**验证：**
+```bash
+python3 common/fw_info/verify_fw_info.py <YOUR_DK_SERIAL> \
+    build/matter_light_switch/fw_info.txt
+```
+
+---
+
+## Matter 固件踩坑：.matter IDL 与静态 cluster 配置必须同步
+
+### 症状
+
+`west flash` 后固件完全无 UART 输出，JLink `halt; regs` 显示 PC 卡在 `fatal.c` 里的 `for(;;){}`，IPSR=003（HardFault）或普通异常。
+
+### 根因
+
+NCS v3.3.0 的 Matter 层有两套"endpoint 数量"来源：
+
+1. `.zap` → 代码生成 → `endpoint_config.h`（`FIXED_ENDPOINT_COUNT=4`）
+2. `.matter` IDL → `zap-generated` 目录 → `static-cluster-config/*.h`（`kFixedClusterConfig` 数组）
+
+两套必须 **完全一致**。如果 `.matter` 只声明了 EP0+EP1，而 `.zap` 生成了 4 个端点，启动时 `attribute-storage.cpp` 里的 `VerifyOrDie` 会在 EP2/EP3 初始化时触发 abort — 此时 UART 尚未初始化，没有任何输出。
+
+### 修复
+
+在 `.matter` IDL 里补齐 EP2、EP3 的完整声明（binding cluster + server cluster），然后 `west build -p` 触发重新代码生成。`static-cluster-config/*.h` 里的 `kFixedClusterConfig` 数组会自动扩展到 4 个端点。
 
 ---
 
