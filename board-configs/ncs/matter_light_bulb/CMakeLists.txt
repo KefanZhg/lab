@@ -41,4 +41,9 @@ target_sources(app PRIVATE
 )
 
 ncs_configure_data_model()
+
+# Firmware identity block (git hash, version, CRC)
+get_filename_component(_real_src "${CMAKE_CURRENT_SOURCE_DIR}" REALPATH)
+include(${_real_src}/../common/fw_info/fw_info.cmake)
+
 # NORDIC SDK APP END

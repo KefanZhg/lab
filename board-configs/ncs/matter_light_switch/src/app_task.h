@@ -10,9 +10,6 @@
 
 #include <platform/CHIPDeviceLayer.h>
 
-struct k_timer;
-struct Identify;
-
 class AppTask {
 public:
 	static AppTask &Instance()
@@ -23,18 +20,8 @@ public:
 
 	CHIP_ERROR StartApp();
 
-	void UpdateClusterState();
-
 private:
-	enum Timer : uint8_t { DimmerTrigger, Dimmer };
-
 	CHIP_ERROR Init();
 
-	static void DimmerTriggerEventHandler();
-	static void TimerEventHandler(const Timer &event);
 	static void ButtonEventHandler(Nrf::ButtonState state, Nrf::ButtonMask hasChanged);
-
-	static void StartTimer(Timer, uint32_t);
-	static void CancelTimer(Timer);
-	static void UserTimerTimeoutCallback(k_timer *timer);
 };

@@ -27,132 +27,140 @@ namespace
 {
 constexpr uint32_t kDimmerTriggeredTimeout = 500;
 constexpr uint32_t kDimmerInterval = 300;
-constexpr EndpointId kLightSwitchEndpointId = 1;
-constexpr EndpointId kLightEndpointId = 1;
 
-k_timer sDimmerPressKeyTimer;
-k_timer sDimmerTimer;
+/* EP1 = BTN2, EP2 = BTN3, EP3 = BTN4 */
+struct ButtonCtx {
+	k_timer dimmerTriggerTimer;
+	k_timer dimmerTimer;
+	EndpointId ep;
+	bool wasDimmerTriggered;
+};
 
-Nrf::Matter::IdentifyCluster sIdentifyCluster(kLightEndpointId);
+static ButtonCtx sBtn[3];
 
-bool sWasDimmerTriggered = false;
-
-#define APPLICATION_BUTTON_MASK DK_BTN2_MSK
-
-#ifdef CONFIG_CHIP_ICD_UAT_SUPPORT
-#define UAT_BUTTON_MASK DK_BTN3_MSK
-#endif
+Nrf::Matter::IdentifyCluster sIdentifyCluster(1 /* EP1 */);
 } /* namespace */
 
-void AppTask::DimmerTriggerEventHandler()
+static ButtonCtx *CtxFromTimer(k_timer *timer)
 {
-	if (!sWasDimmerTriggered) {
-		LightSwitch::GetInstance().InitiateActionSwitch(LightSwitch::Action::Toggle);
+	for (auto &ctx : sBtn) {
+		if (timer == &ctx.dimmerTriggerTimer || timer == &ctx.dimmerTimer) {
+			return &ctx;
+		}
 	}
-
-	Instance().CancelTimer(Timer::Dimmer);
-	Instance().CancelTimer(Timer::DimmerTrigger);
-	sWasDimmerTriggered = false;
+	return nullptr;
 }
 
-void AppTask::TimerEventHandler(const Timer &timerType)
+static void DimmerTriggerTimeoutCallback(k_timer *timer)
 {
-	switch (timerType) {
-	case Timer::DimmerTrigger:
-		LOG_INF("Dimming started...");
-		sWasDimmerTriggered = true;
-		LightSwitch::GetInstance().InitiateActionSwitch(LightSwitch::Action::On);
-		Instance().StartTimer(Timer::Dimmer, kDimmerInterval);
-		Instance().CancelTimer(Timer::DimmerTrigger);
-		break;
-	case Timer::Dimmer:
-		LightSwitch::GetInstance().DimmerChangeBrightness();
-		break;
-	default:
-		break;
+	ButtonCtx *ctx = CtxFromTimer(timer);
+	if (!ctx) {
+		return;
 	}
+	EndpointId ep = ctx->ep;
+	Nrf::PostTask([ep]() {
+		/* Find the ctx again inside the task (safe: sBtn is static) */
+		ButtonCtx *c = nullptr;
+		for (auto &b : sBtn) {
+			if (b.ep == ep) { c = &b; break; }
+		}
+		if (!c) return;
+
+		LOG_INF("Dimming started on EP%u...", ep);
+		c->wasDimmerTriggered = true;
+		LightSwitch::GetInstance().InitiateActionSwitch(ep, LightSwitch::Action::On);
+		k_timer_start(&c->dimmerTimer, K_MSEC(kDimmerInterval), K_MSEC(kDimmerInterval));
+		k_timer_stop(&c->dimmerTriggerTimer);
+	});
+}
+
+static void DimmerTimeoutCallback(k_timer *timer)
+{
+	ButtonCtx *ctx = CtxFromTimer(timer);
+	if (!ctx) {
+		return;
+	}
+	EndpointId ep = ctx->ep;
+	Nrf::PostTask([ep]() {
+		LightSwitch::GetInstance().DimmerChangeBrightness(ep);
+	});
+}
+
+static void HandleButtonRelease(ButtonCtx *ctx)
+{
+	EndpointId ep = ctx->ep;
+	Nrf::PostTask([ep]() {
+		ButtonCtx *c = nullptr;
+		for (auto &b : sBtn) {
+			if (b.ep == ep) { c = &b; break; }
+		}
+		if (!c) return;
+
+		if (!c->wasDimmerTriggered) {
+			LightSwitch::GetInstance().InitiateActionSwitch(ep, LightSwitch::Action::Toggle);
+		}
+		k_timer_stop(&c->dimmerTimer);
+		k_timer_stop(&c->dimmerTriggerTimer);
+		c->wasDimmerTriggered = false;
+	});
 }
 
 void AppTask::ButtonEventHandler(Nrf::ButtonState state, Nrf::ButtonMask hasChanged)
 {
-	if ((APPLICATION_BUTTON_MASK & state & hasChanged)) {
-		LOG_INF("Button has been pressed, keep in this state for at least 500 ms to change light sensitivity of bound lighting devices.");
-		Instance().StartTimer(Timer::DimmerTrigger, kDimmerTriggeredTimeout);
-	} else if ((APPLICATION_BUTTON_MASK & hasChanged)) {
-		Nrf::PostTask([] { DimmerTriggerEventHandler(); });
-#ifdef CONFIG_CHIP_ICD_UAT_SUPPORT
-	} else if ((UAT_BUTTON_MASK & state & hasChanged)) {
-		LOG_INF("ICD UserActiveMode has been triggered.");
-		Server::GetInstance().GetICDManager().OnNetworkActivity();
-#endif
-	}
-}
-
-void AppTask::StartTimer(Timer timer, uint32_t timeoutMs)
-{
-	switch (timer) {
-	case Timer::DimmerTrigger:
-		k_timer_start(&sDimmerPressKeyTimer, K_MSEC(timeoutMs), K_NO_WAIT);
-		break;
-	case Timer::Dimmer:
-		k_timer_start(&sDimmerTimer, K_MSEC(timeoutMs), K_MSEC(timeoutMs));
-		break;
-	default:
-		break;
-	}
-}
-
-void AppTask::CancelTimer(Timer timer)
-{
-	switch (timer) {
-	case Timer::DimmerTrigger:
-		k_timer_stop(&sDimmerPressKeyTimer);
-		break;
-	case Timer::Dimmer:
-		k_timer_stop(&sDimmerTimer);
-		break;
-	default:
-		break;
-	}
-}
-
-void AppTask::UserTimerTimeoutCallback(k_timer *timer)
-{
-	if (!timer) {
-		return;
-	}
-	Timer timerType;
-
-	if (timer == &sDimmerPressKeyTimer) {
-		timerType = Timer::DimmerTrigger;
-	} else if (timer == &sDimmerTimer) {
-		timerType = Timer::Dimmer;
-	} else {
-		return;
+	/* BTN2 → EP1 */
+	if (DK_BTN2_MSK & hasChanged) {
+		if (DK_BTN2_MSK & state) {
+			LOG_INF("BTN2 pressed (EP1)");
+			k_timer_start(&sBtn[0].dimmerTriggerTimer, K_MSEC(kDimmerTriggeredTimeout), K_NO_WAIT);
+		} else {
+			HandleButtonRelease(&sBtn[0]);
+		}
 	}
 
-	Nrf::PostTask([timerType]() { TimerEventHandler(timerType); });
+	/* BTN3 → EP2 */
+	if (DK_BTN3_MSK & hasChanged) {
+		if (DK_BTN3_MSK & state) {
+			LOG_INF("BTN3 pressed (EP2)");
+			k_timer_start(&sBtn[1].dimmerTriggerTimer, K_MSEC(kDimmerTriggeredTimeout), K_NO_WAIT);
+		} else {
+			HandleButtonRelease(&sBtn[1]);
+		}
+	}
+
+	/* BTN4 → EP3 */
+	if (DK_BTN4_MSK & hasChanged) {
+		if (DK_BTN4_MSK & state) {
+			LOG_INF("BTN4 pressed (EP3)");
+			k_timer_start(&sBtn[2].dimmerTriggerTimer, K_MSEC(kDimmerTriggeredTimeout), K_NO_WAIT);
+		} else {
+			HandleButtonRelease(&sBtn[2]);
+		}
+	}
 }
 
 CHIP_ERROR AppTask::Init()
 {
 	/* Initialize Matter stack */
 	ReturnErrorOnFailure(Nrf::Matter::PrepareServer(Nrf::Matter::InitData{ .mPostServerInitClbk = [] {
-		LightSwitch::GetInstance().Init(kLightSwitchEndpointId);
+		LightSwitch::GetInstance().Init(1 /* EP1 */);
 		return CHIP_NO_ERROR;
 	} }));
 
-	/* Initialize application timers */
-	k_timer_init(&sDimmerPressKeyTimer, AppTask::UserTimerTimeoutCallback, nullptr);
-	k_timer_init(&sDimmerTimer, AppTask::UserTimerTimeoutCallback, nullptr);
+	/* Initialize per-button contexts and timers */
+	sBtn[0] = { .ep = 1, .wasDimmerTriggered = false };
+	sBtn[1] = { .ep = 2, .wasDimmerTriggered = false };
+	sBtn[2] = { .ep = 3, .wasDimmerTriggered = false };
+
+	for (auto &ctx : sBtn) {
+		k_timer_init(&ctx.dimmerTriggerTimer, DimmerTriggerTimeoutCallback, nullptr);
+		k_timer_init(&ctx.dimmerTimer, DimmerTimeoutCallback, nullptr);
+	}
 
 	if (!Nrf::GetBoard().Init(ButtonEventHandler)) {
 		LOG_ERR("User interface initialization failed.");
 		return CHIP_ERROR_INCORRECT_STATE;
 	}
 
-	/* Register Matter event handler that controls the connectivity status LED based on the captured Matter network
-	 * state. */
 	ReturnErrorOnFailure(Nrf::Matter::RegisterEventHandler(Nrf::Board::DefaultMatterEventHandler, 0));
 
 	ReturnErrorOnFailure(sIdentifyCluster.Init());

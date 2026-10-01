@@ -34,9 +34,14 @@ void LightSwitch::Init(chip::EndpointId lightSwitchEndpoint)
 
 void LightSwitch::InitiateActionSwitch(Action action)
 {
+	InitiateActionSwitch(mLightSwitchEndpoint, action);
+}
+
+void LightSwitch::InitiateActionSwitch(chip::EndpointId ep, Action action)
+{
 	Nrf::Matter::BindingHandler::BindingData *data = Platform::New<Nrf::Matter::BindingHandler::BindingData>();
 	if (data) {
-		data->EndpointId = mLightSwitchEndpoint;
+		data->EndpointId = ep;
 		data->ClusterId = Clusters::OnOff::Id;
 		data->InvokeCommandFunc = SwitchChangedHandler;
 		switch (action) {
@@ -59,19 +64,24 @@ void LightSwitch::InitiateActionSwitch(Action action)
 
 void LightSwitch::DimmerChangeBrightness()
 {
-	static uint16_t sBrightness;
+	DimmerChangeBrightness(mLightSwitchEndpoint);
+}
+
+void LightSwitch::DimmerChangeBrightness(chip::EndpointId ep)
+{
+	static uint16_t sBrightness[4];
+	uint8_t idx = (ep < 4) ? ep : 0;
 	Nrf::Matter::BindingHandler::BindingData *data = Platform::New<Nrf::Matter::BindingHandler::BindingData>();
 	if (data) {
-		data->EndpointId = mLightSwitchEndpoint;
+		data->EndpointId = ep;
 		data->CommandId = Clusters::LevelControl::Commands::MoveToLevel::Id;
 		data->ClusterId = Clusters::LevelControl::Id;
 		data->InvokeCommandFunc = SwitchChangedHandler;
-		/* add to brightness 3 to approximate 1% step of brightness after each call dimmer change. */
-		sBrightness += kOnePercentBrightnessApproximation;
-		if (sBrightness > kMaximumBrightness) {
-			sBrightness = 0;
+		sBrightness[idx] += kOnePercentBrightnessApproximation;
+		if (sBrightness[idx] > kMaximumBrightness) {
+			sBrightness[idx] = 0;
 		}
-		data->Value = (uint8_t)sBrightness;
+		data->Value = (uint8_t)sBrightness[idx];
 		Nrf::Matter::BindingHandler::RunBoundClusterAction(data);
 	}
 }
